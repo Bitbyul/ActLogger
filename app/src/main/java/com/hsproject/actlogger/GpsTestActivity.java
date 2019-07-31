@@ -22,6 +22,8 @@ public class GpsTestActivity extends AppCompatActivity {
     private Button button1;
     private TextView txtResult;
 
+    DatabaseHelper db = new DatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,10 @@ public class GpsTestActivity extends AppCompatActivity {
                             0);
                 } else {
                     Location location = getLastKnownLocation();
+                    if(location==null){
+                        txtResult.setText("위치정보 받아오기 실패");
+                        return;
+                    }
                     String provider = location.getProvider();
                     double time = location.getTime();
                     double speed = location.getSpeed()*3.6f;
@@ -57,6 +63,8 @@ public class GpsTestActivity extends AppCompatActivity {
                             "속도 : " + speed + "\n" +
                             "방향 : " + heading + "\n" +
                             "정확도 : " + accuracy);
+
+                    db.insertLocation(location);
 
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                             1000,
