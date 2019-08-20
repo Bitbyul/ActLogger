@@ -43,16 +43,7 @@ public class MainActivity extends AppCompatActivity
         // 왼쪽 툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,6 +60,14 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.frame_layout, behaviorfragment).commitAllowingStateLoss();
         // 아래쪽 툴바 아이템이 선택 리스너 등록
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        //서비스 생성
+        Intent service_intent = new Intent(this, GpsLogService.class);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+            this.startForegroundService(service_intent);
+        }else{
+            this.startService(service_intent);
+        }
 
     }
 
