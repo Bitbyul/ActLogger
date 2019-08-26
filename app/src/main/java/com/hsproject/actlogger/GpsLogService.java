@@ -32,8 +32,8 @@ public class GpsLogService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        gps = new GpsHelper(this);
         db = new DatabaseHelper(this);
+        gps = new GpsHelper(this,db);
 
         startForegroundService();
     }
@@ -42,8 +42,11 @@ public class GpsLogService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG,"활동기록 서비스가 실행되었습니다.");
         Toast.makeText(this, "활동기록 서비스가 실행되었습니다.", Toast.LENGTH_LONG).show();
-
-        Log.d(TAG, "가장 최근에 저장된 위치 : " + db.getLastLocation().toString());
+        ContentValues cv = db.getLastLocationAsCv();
+        if(cv!=null)
+            Log.d(TAG, "가장 최근에 저장된 위치 : " + cv.toString());
+        else
+            Log.d(TAG, "가장 최근에 저장된 위치가 없습니다.");
 
         return super.onStartCommand(intent, flags, startId);
     }

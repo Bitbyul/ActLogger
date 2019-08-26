@@ -1,6 +1,9 @@
 package com.hsproject.actlogger;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,14 +22,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener,
+        implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, ColorPickerDialogListener,
         BehaviorFragment.OnFragmentInteractionListener,
         StatisticsFragment.OnFragmentInteractionListener,
-        ActsettingFragment.OnFragmentInteractionListener {
+        ActsettingFragment.OnFragmentInteractionListener,
+        ActsettingFragment_detail.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
+
+    DatabaseHelper db;
+    GpsHelper gps;
 
     // FrameLayout에 각 메뉴의 Fragment를 바꿔 줌
     private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -34,6 +48,9 @@ public class MainActivity extends AppCompatActivity
     private BehaviorFragment behaviorfragment = new BehaviorFragment();
     private StatisticsFragment statisticsfragment = new StatisticsFragment();
     private ActsettingFragment actsettingfragment = new ActsettingFragment();
+    private ActsettingFragment_detail actsettingfragment_detail = new ActsettingFragment_detail();
+
+    public String pickedAct = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +85,9 @@ public class MainActivity extends AppCompatActivity
         }else{
             this.startService(service_intent);
         }
+
+        db = new DatabaseHelper(this);
+        gps = new GpsHelper(this, db);
 
     }
 
@@ -162,4 +182,27 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri){
         //you can leave it empty
     }
+
+    @Override
+    public void onColorSelected(int dialogId, final int color) {
+        //ToDo..
+        Log.d(TAG,"Color: " + color + ", Act: " + pickedAct);
+        if(pickedAct.equals("==NEWADDEDACT==")){
+            ((Button) findViewById(R.id.btnColor)).setBackgroundColor(color);
+        }
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+        // ToDo..
+    }
+
+    public void replaceFragmentDetail(boolean isOpen){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(isOpen)
+            transaction.replace(R.id.frame_layout, actsettingfragment_detail).commitAllowingStateLoss();
+        else // close
+            transaction.replace(R.id.frame_layout, actsettingfragment).commitAllowingStateLoss();
+    }
+
 }

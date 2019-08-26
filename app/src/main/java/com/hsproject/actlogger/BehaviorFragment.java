@@ -1,5 +1,7 @@
 package com.hsproject.actlogger;
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -18,6 +21,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class BehaviorFragment extends Fragment {
+
+    DatabaseHelper db;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +36,7 @@ public class BehaviorFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public BehaviorFragment() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -58,13 +64,16 @@ public class BehaviorFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        db = ((MainActivity)getActivity()).db;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_behavior, container, false);
+        View view = inflater.inflate(R.layout.fragment_behavior, container, false);
+        updateLocationInfo(view);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +113,21 @@ public class BehaviorFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void updateLocationInfo(View view){
+        ContentValues cv = db.getLastLocationAsCv();
+        if(cv==null) return;
+        TextView txtNowLocation;
+        TextView txtNowBehavior;
+
+        String addr = ((MainActivity)getActivity()).gps.reverseCoding(cv.getAsDouble(DatabaseHelper.COLUMN_LOCATION_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_LOCATION_LONGITUDE));
+
+        txtNowLocation = (TextView) view.findViewById(R.id.txtNowLocation);
+        txtNowBehavior = (TextView) view.findViewById(R.id.txtNowBehavior);
+
+        txtNowLocation.setText("현재 위치: " + addr);
+        txtNowBehavior.setText("현재 활동: " + "");
+
     }
 }

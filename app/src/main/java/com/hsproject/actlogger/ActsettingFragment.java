@@ -1,12 +1,19 @@
 package com.hsproject.actlogger;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,9 +26,12 @@ import android.view.ViewGroup;
  */
 public class ActsettingFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private static final String TAG = "ActsettingFragment";
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private RecyclerAdapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,13 +68,49 @@ public class ActsettingFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_actsetting, container, false);
+
+        Button addplan = (Button) view.findViewById(R.id.addplan);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_actsetting, container, false);
+        addplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragmentDetail(true);
+            }
+         });
+        RecyclerView recyclerView = view.findViewById(R.id.rcvActList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerAdapter();
+        recyclerView.setAdapter(adapter);
+
+        ArrayList<ContentValues> actList = ((MainActivity)getActivity()).db.getActSettingList();
+
+        for(int i=0; i<actList.size(); i++) {
+            Log.d(TAG, "Recycler 추가: ");
+            double latitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE);
+            double longitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE);
+            String address = ((MainActivity)getActivity()).gps.reverseCoding(latitude,longitude);
+
+            ActSetData data = new ActSetData();
+            data.setTitle(actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_NAME));
+            data.setContent(address);
+            data.setCategory(actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_CATEGORY));
+            data.setColor(actList.get(i).getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_COLOR));
+
+            adapter.addItem(data);
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,4 +151,5 @@ public class ActsettingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

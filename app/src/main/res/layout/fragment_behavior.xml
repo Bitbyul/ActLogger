@@ -6,11 +6,197 @@
     android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context=".BehaviorFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="behavfrag" />
+        android:weightSum="100"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="90"
+            android:orientation="vertical">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+                <TableRow>
+                    <Button
+                        android:id="@+id/btnPrev"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:textColor="#fa6690"
+                        android:text="◀" />
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:textColor="#fa6690"
+                        android:text="2000년 01월 01일" />
+                    <Button
+                        android:id="@+id/btnNext"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:textColor="#fa6690"
+                        android:text="▶" />
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/table_corner"
+                android:stretchColumns="1">
+            <TableRow
+                android:background="@drawable/table_bottom_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#fa6690"
+                    android:text="시간" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#fa6690"
+                    android:text="장소 / 활동" />
+            </TableRow>
+            </TableLayout>
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/table_corner"
+                    android:stretchColumns="1">
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="09" />
+                        <TextView
+                            android:id="@+id/view09"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#facbba"
+                            android:text="aa" />
+                    </TableRow>
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="10" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#b5e8e2"
+                            android:text="bb" />
+                    </TableRow>
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="11" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#ffdfd3"
+                            android:text="cc" />
+                    </TableRow>
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="12" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#ffdfd3"
+                            android:text="cc" />
+                    </TableRow>
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="13" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#ffdfd3"
+                            android:text="cc" />
+                    </TableRow>
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="14" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#ffdfd3"
+                            android:text="cc" />
+                    </TableRow>
+                    <TableRow
+                        android:background="@drawable/table_bottom_border_white">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:text="15" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:background="#ffdfd3"
+                            android:text="cc" />
+                    </TableRow>
+                </TableLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="vertical">
+            <TextView
+                android:id="@+id/txtNowLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="현재 위치 :" />
+            <TextView
+                android:id="@+id/txtNowBehavior"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="현재 활동 :" />
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

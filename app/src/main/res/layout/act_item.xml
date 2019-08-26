@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp"
+    android:background="@android:color/white">
+    <Button
+        android:id="@+id/btnColor"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:textSize="0dp"
+        android:text="ACT_NAME"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/txtActName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="ACT_NAME"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtActDetail01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="ㄴACT_DETAIL"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/txtActDetail02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="ㄴACT_DETAIL"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/txtActDetail03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="ㄴACT_DETAIL"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"/>
+    </LinearLayout>
+</LinearLayout>
