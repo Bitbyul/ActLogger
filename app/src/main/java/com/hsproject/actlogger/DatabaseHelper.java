@@ -245,7 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor;
-        String sql = "SELECT " + COLUMN_BEHAVIOR_NAME + " FROM " + TABLE_BEHAVIOR_SETTING + " ORDER BY " + COLUMN_BEHAVIOR_SETTING_NAME;
+        String sql = "SELECT " + COLUMN_BEHAVIOR_SETTING_NAME + " FROM " + TABLE_BEHAVIOR_SETTING + " ORDER BY " + COLUMN_BEHAVIOR_SETTING_NAME;
         cursor = db.rawQuery(sql,null);
 
         while(cursor.moveToNext()){
@@ -293,14 +293,138 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long updateActLogFromLast(){
         long result = 0;
+        long lastUpdatedTimestamp;
+        long min_10 = 1000*60*10;
+
+        ArrayList<ContentValues> locationLogList = new ArrayList<ContentValues>();
+
         SQLiteDatabase db = getWritableDatabase();
+
+        Cursor cursor;
+        String sql = "SELECT "+ COLUMN_BEHAVIOR_TIMESTAMP + " FROM " + TABLE_BEHAVIOR + " ORDER BY " + COLUMN_BEHAVIOR_TIMESTAMP + " DESC limit 1"; // 가장 최근 update된 TimeStamp
+        cursor = db.rawQuery(sql,null);
+
+        cursor.moveToFirst();
+        int size = cursor.getCount();
+        if(size<1) {
+            lastUpdatedTimestamp = 0;
+        }else {
+            lastUpdatedTimestamp = cursor.getLong(0);
+        }
+
+        Log.d(TAG, "lastUpdatedTimestamp = " + ((lastUpdatedTimestamp/min_10) + 1) * (min_10));
+
+        sql = "SELECT " + COLUMN_LOCATION_TIMESTAMP+","+COLUMN_LOCATION_LATITUDE+","+COLUMN_LOCATION_LONGITUDE
+                + " FROM " + TABLE_LOCATION + " WHERE " + COLUMN_LOCATION_TIMESTAMP + ">=" + ((lastUpdatedTimestamp/min_10) + 1) * (min_10) + " ORDER BY " + COLUMN_LOCATION_TIMESTAMP;
+        cursor = db.rawQuery(sql,null);
+
+        while(cursor.moveToNext()){
+            ContentValues cv = new ContentValues();
+
+            long timestamp = cursor.getLong(0);
+            double latitude = cursor.getDouble(1);
+            double longitude = cursor.getDouble(2);
+
+            cv.put(COLUMN_LOCATION_TIMESTAMP, timestamp);
+            cv.put(COLUMN_LOCATION_LATITUDE, latitude);
+            cv.put(COLUMN_LOCATION_LONGITUDE, longitude);
+
+            locationLogList.add(cv);
+        }
+
+        long timestamp;
+        long timestamp_next = 0;
+        long unique = 0;
+
+        for(int i=0; i<locationLogList.size(); i++) {
+            timestamp = locationLogList.get(i).getAsLong(COLUMN_LOCATION_TIMESTAMP);
+            unique = timestamp / min_10;
+
+            if(i != locationLogList.size()-1) {
+                timestamp_next = locationLogList.get(i + 1).getAsLong(COLUMN_LOCATION_TIMESTAMP);
+                if (unique == (timestamp_next / min_10))
+                    continue;
+            }
+
+            String name;
+            name = isInArea(locationLogList.get(i).getAsDouble(COLUMN_LOCATION_LATITUDE), locationLogList.get(i).getAsDouble(COLUMN_LOCATION_LONGITUDE));
+
+            insertBehavior(unique*min_10, name);
+        }
 
         return result;
     }
+
+    public long insertBehavior(long timestamp, String name){
+        Log.d(TAG, "행동 저장 : TimeStamp = " + timestamp + " / Name = " + name);
+
+        long result = 0;
+
+        ContentValues cv = new ContentValues();
+
+        // INSERT
+        cv.put(COLUMN_BEHAVIOR_TIMESTAMP, timestamp);
+        cv.put(COLUMN_BEHAVIOR_NAME, name);
+
+        result = getWritableDatabase().insert(TABLE_BEHAVIOR, null, cv);
+
+        return result;
+    }
+
     public ArrayList<ContentValues> getActLogFromTo(long startTime, long endTime){
         ArrayList<ContentValues> al = new ArrayList<ContentValues>();
         SQLiteDatabase db = getReadableDatabase();
 
+        Cursor cursor;
+        String sql = "SELECT * FROM " + TABLE_BEHAVIOR + " WHERE " + COLUMN_BEHAVIOR_TIMESTAMP + " BETWEEN " + startTime + " AND " + endTime + " ORDER BY " + COLUMN_BEHAVIOR_TIMESTAMP;
+        cursor = db.rawQuery(sql,null);
+
+        while(cursor.moveToNext()){
+            ContentValues cv = new ContentValues();
+
+            long timestamp = cursor.getLong(0);
+            String name = cursor.getString(1);
+
+            Log.d(TAG,"DB에서 불러옴: " + name);
+
+            cv.put(COLUMN_BEHAVIOR_TIMESTAMP, timestamp);
+            cv.put(COLUMN_BEHAVIOR_NAME, name);
+
+            al.add(cv);
+        }
+
         return al;
+    }
+
+    public String isInArea(double myLatitude, double myLongitude){
+        ArrayList<ContentValues> actList = getActSettingList();
+
+        for(int i=0; i<actList.size(); i++) {
+            double actLatitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE);
+            double actLongitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE);
+            int actRange = actList.get(i).getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_RANGE);
+            Log.d(TAG, actLatitude + ", " + actLongitude + ", " + myLatitude + ", " + myLongitude);
+            Log.d(TAG, actRange + " > " + getDistance(actLatitude, actLongitude, myLatitude, myLongitude));
+            if(actRange > getDistance(actLatitude, actLongitude, myLatitude, myLongitude)) {
+                Log.d(TAG, "위치-활동 감지");
+                return actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_NAME);
+            }
+        }
+
+        return null;
+    }
+
+    public double getDistance(double lat1, double lng1, double lat2, double lng2){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(lat1);
+        locationA.setLongitude(lng1);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(lat2);
+        locationB.setLongitude(lng2);
+
+        return locationA.distanceTo(locationB);
     }
 }

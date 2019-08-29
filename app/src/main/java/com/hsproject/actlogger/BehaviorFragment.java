@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -32,6 +34,7 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class BehaviorFragment extends Fragment {
+    private static final String TAG = "BehaviorFragment";
 
     DatabaseHelper db;
 
@@ -78,6 +81,7 @@ public class BehaviorFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         db = ((MainActivity)getActivity()).db;
+        db.updateActLogFromLast();
     }
 
     @Override
@@ -211,12 +215,25 @@ public class BehaviorFragment extends Fragment {
 
     void setDate(int myYear, int myMonth, int myDayOfMonth){
         txtDate.setText(myYear+"년 "+(myMonth)+"월 "+myDayOfMonth+"일");
+
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy년 M월 d일");
+        Date date = null;
+        try {
+            date = sdf.parse(txtDate.getText().toString());
+            long startTime = date.getTime()+(1000*60*60*9); // 09시부터
+            long endTime = startTime+(1000*60*60*24*1 - 1); //다음날 09시 이전까지
+            ArrayList<ContentValues> al = db.getActLogFromTo(startTime, endTime);
+
+            Log.d(TAG, al.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     void setNextDate(){
         String datastr = txtDate.getText().toString();
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy년 M월 d일");
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy년 M월 d일");
         Date date = new Date();
         try {
             date = sdf.parse(datastr);
