@@ -61,6 +61,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
     MapPOIItem marker;
     private Spinner spnActList;
     private Button btnColor;
+    private Button btnDelete;
 
     public ActsettingFragment_detail() {
         // Required empty public constructor
@@ -116,10 +117,17 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                 return false;
             }
         });
+
+        btnDelete = ((Button)view.findViewById(R.id.btnDelete));
+
         spnActList = view.findViewById(R.id.spnActList);
         final ArrayList<String> actList = new ArrayList<String>();
+        ArrayList<String> dbActNameList = new ArrayList<String>();
+        dbActNameList = ((MainActivity)getActivity()).db.getActSettingNames();
         actList.add("활동을 선택하세요");
-
+        for(int i=0; i<dbActNameList.size(); i++) {
+            actList.add(dbActNameList.get(i));
+        }
         actList.add("...새로운 항목 추가");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,actList);
@@ -148,6 +156,8 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     spnActList.setAdapter(adapter);
                                     spnActList.setSelection(spnActList.getCount()-2); // 새로 추가된 항목으로 선택
+                                    ((MainActivity) getActivity()).pickedAct = edittext.getText().toString();
+                                    btnDelete.setVisibility(View.INVISIBLE);
                                 }
                             });
                     builder.setNegativeButton("취소",
@@ -157,6 +167,23 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                                 }
                             });
                     builder.show();
+                }else{
+                    if(position!=0) {
+                        try {
+                            String actName = ((TextView) view).getText().toString();
+                            Log.d(TAG, "활동 항목 '" + actName + "' 선택됨");
+                            ((MainActivity) getActivity()).pickedAct = actName;
+                            ContentValues cv = ((MainActivity) getActivity()).db.getActSettingByName(actName);
+                            btnColor.setBackgroundColor(cv.getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_COLOR));
+                            skbRange.setProgress(cv.getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_RANGE));
+                            mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE)), false);
+                            btnDelete.setVisibility(View.VISIBLE);
+                        } catch (java.lang.NullPointerException e) {
+                            //spnActList.setSelection(0);
+                        }
+                    }else{
+                        btnDelete.setVisibility(View.INVISIBLE);
+                    }
                 }
 
             }
@@ -203,6 +230,16 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                 Log.d(TAG,"Show Color Picker: " + btnColor.getText());
                 ((MainActivity)getContext()).pickedAct = "==NEWADDEDACT==";
                 ColorPickerDialog.newBuilder().show((Activity)getContext());
+            }
+        });
+
+        // 삭제버튼
+        ((Button)view.findViewById(R.id.btnDelete)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
+
+                ((MainActivity)getActivity()).replaceFragmentDetail(false);
             }
         });
 
@@ -286,7 +323,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
         ContentValues cv = ((MainActivity)getActivity()).db.getLastLocationAsCv();
         if(cv==null) return;
 
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(cv.getAsDouble(DatabaseHelper.COLUMN_LOCATION_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_LOCATION_LONGITUDE)), true);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(cv.getAsDouble(DatabaseHelper.COLUMN_LOCATION_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_LOCATION_LONGITUDE)), false);
 
         marker = new MapPOIItem();
         marker.setItemName("Default Marker");
@@ -382,5 +419,26 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
         Log.i(TAG, String.format("MapView onMapViewMoveFinished (%f,%f)", mapPointGeo.latitude, mapPointGeo.longitude));
+
+        mapView.removeAllPOIItems();
+        mapView.removeAllCircles();
+
+        marker = new MapPOIItem();
+        marker.setItemName("Default Marker");
+        marker.setTag(0);
+        marker.setMapPoint(mapView.getMapCenterPoint());
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+
+        mapView.addPOIItem(marker);
+
+        MapCircle circle1 = new MapCircle(
+                mapView.getMapCenterPoint(), // center
+                skbRange.getProgress(), // radius
+                Color.argb(128, 255, 0, 0), // strokeColor
+                Color.argb(128, 0, 255, 0) // fillColor
+        );
+        circle1.setTag(1234);
+        mapView.addCircle(circle1);
     }
 }

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         db = new DatabaseHelper(this);
-        gps = new GpsHelper(this, db);
+        gps = new GpsHelper(this, db, false);
 
     }
 

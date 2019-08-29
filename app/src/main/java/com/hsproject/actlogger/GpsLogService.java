@@ -33,7 +33,7 @@ public class GpsLogService extends Service {
     public void onCreate() {
         super.onCreate();
         db = new DatabaseHelper(this);
-        gps = new GpsHelper(this,db);
+        gps = new GpsHelper(this,db, true);
 
         startForegroundService();
     }

@@ -1,6 +1,7 @@
 package com.hsproject.actlogger;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -14,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GpsHelper {
@@ -31,14 +33,14 @@ public class GpsHelper {
 
     private static final String TAG = "GpsHelper";
 
-    public GpsHelper(Context c, DatabaseHelper db) {
+    public GpsHelper(Context c, DatabaseHelper db, boolean isServiceMode) {
         context = c;
         lManager = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
         this.db = db;
 
         geocoder = new Geocoder(context);  // 역지오코딩 하기 위해
-
-        updateLocation();
+        if(isServiceMode)
+            updateLocation();
     }
 
     private void updateLocation() {
@@ -179,9 +181,41 @@ public class GpsHelper {
                 // cut[1] : 서울특별시  cut[2] : 송파구  cut[3] : 오금동
                 // cut[4] : cut[4] : 41-26"],feature=41-26,admin=null ~~~~
                 */
-                return (list.get(0).toString().split("0:\"")[1].split("\"")[0].split("대한민국 ")[1]); // 내가 원하는 구의 값을 뽑아내 출력
+                return (list.get(0).toString().split("0:\"")[1].split("\"")[0]); // 내가 원하는 구의 값을 뽑아내 출력
             }
         }
         return "에러";
+    }
+
+    public double getDistance(double lat1, double lng1, double lat2, double lng2){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(lat1);
+        locationA.setLongitude(lng1);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(lat2);
+        locationB.setLongitude(lng2);
+
+        return locationA.distanceTo(locationB);
+    }
+
+    public String isInArea(double myLatitude, double myLongitude){
+        ArrayList<ContentValues> actList = db.getActSettingList();
+
+        for(int i=0; i<actList.size(); i++) {
+            double actLatitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE);
+            double actLongitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE);
+            int actRange = actList.get(i).getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_RANGE);
+            Log.d(TAG, actLatitude + ", " + actLongitude + ", " + myLatitude + ", " + myLongitude);
+            Log.d(TAG, actRange + " > " + getDistance(actLatitude, actLongitude, myLatitude, myLongitude));
+            if(actRange > getDistance(actLatitude, actLongitude, myLatitude, myLongitude)) {
+                Log.d(TAG, "위치-활동 감지");
+                return actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_NAME);
+            }
+        }
+
+        return null;
     }
 }

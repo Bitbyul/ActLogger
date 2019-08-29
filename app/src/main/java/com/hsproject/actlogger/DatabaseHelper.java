@@ -202,6 +202,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public long deleteActSettingByName(String name){
+        long result = getWritableDatabase().delete(TABLE_BEHAVIOR_SETTING,"name=?",new String[]{name});
+
+        return result;
+    }
+
     public ContentValues getActSettingByName(String name){
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = getReadableDatabase();
@@ -217,18 +223,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             close();
             return null;
         }
-        long timestamp = cursor.getLong(0);
+
+        int color = cursor.getInt(0);
         double latitude = cursor.getDouble(1);
         double longitude = cursor.getDouble(2);
+        int range = cursor.getInt(3);
 
-        cv.put(COLUMN_LOCATION_TIMESTAMP, timestamp);
-        cv.put(COLUMN_LOCATION_LATITUDE, latitude);
-        cv.put(COLUMN_LOCATION_LONGITUDE, longitude);
+        cv.put(COLUMN_BEHAVIOR_SETTING_NAME, name);
+        cv.put(COLUMN_BEHAVIOR_SETTING_COLOR, color);
+        cv.put(COLUMN_BEHAVIOR_SETTING_LATITUDE, latitude);
+        cv.put(COLUMN_BEHAVIOR_SETTING_LONGITUDE, longitude);
+        cv.put(COLUMN_BEHAVIOR_SETTING_RANGE, range);
 
         close();
 
         return cv;
     }
+
+    public ArrayList<String> getActSettingNames(){
+        ArrayList<String> al = new ArrayList<String>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor;
+        String sql = "SELECT " + COLUMN_BEHAVIOR_NAME + " FROM " + TABLE_BEHAVIOR_SETTING + " ORDER BY " + COLUMN_BEHAVIOR_SETTING_NAME;
+        cursor = db.rawQuery(sql,null);
+
+        while(cursor.moveToNext()){
+            ContentValues cv = new ContentValues();
+            String name = cursor.getString(0);
+            al.add(name);
+        }
+
+        close();
+
+        return al;
+    }
+
     public ArrayList<ContentValues> getActSettingList(){
         ArrayList<ContentValues> al = new ArrayList<ContentValues>();
         SQLiteDatabase db = getReadableDatabase();
@@ -257,6 +287,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         close();
+
+        return al;
+    }
+
+    public long updateActLogFromLast(){
+        long result = 0;
+        SQLiteDatabase db = getWritableDatabase();
+
+        return result;
+    }
+    public ArrayList<ContentValues> getActLogFromTo(long startTime, long endTime){
+        ArrayList<ContentValues> al = new ArrayList<ContentValues>();
+        SQLiteDatabase db = getReadableDatabase();
 
         return al;
     }

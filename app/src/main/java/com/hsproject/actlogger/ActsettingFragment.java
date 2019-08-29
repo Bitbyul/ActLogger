@@ -96,7 +96,7 @@ public class ActsettingFragment extends Fragment {
         ArrayList<ContentValues> actList = ((MainActivity)getActivity()).db.getActSettingList();
 
         for(int i=0; i<actList.size(); i++) {
-            Log.d(TAG, "Recycler 추가: ");
+            Log.d(TAG, "Recycler 추가: " + actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_NAME));
             double latitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE);
             double longitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE);
             String address = ((MainActivity)getActivity()).gps.reverseCoding(latitude,longitude);
