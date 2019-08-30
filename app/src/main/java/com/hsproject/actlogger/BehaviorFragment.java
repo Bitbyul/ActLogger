@@ -341,9 +341,10 @@ public class BehaviorFragment extends Fragment {
             int StartSameActIndex = i;
             int EndSameActIndex = i;
             String actName = timeActList.get(i).getAsString("name");
+            Log.d(TAG,actName);
 
-            for(int j=i+1; j<timeActList.size(); j++)
-                if(actName.equals(timeActList.get(j).getAsString("name")))
+            for (int j = i + 1; j < timeActList.size(); j++)
+                if (actName.equals(timeActList.get(j).getAsString("name")))
                     EndSameActIndex++;
                 else
                     break;

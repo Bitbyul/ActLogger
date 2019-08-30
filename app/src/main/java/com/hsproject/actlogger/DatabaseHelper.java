@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.location.Location;
 
 import java.util.ArrayList;
@@ -259,6 +260,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return al;
     }
 
+    public int getActColorByName(String name){
+        int color = Color.rgb(200,200,200);
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor;
+        String sql = "SELECT "+COLUMN_BEHAVIOR_SETTING_COLOR
+                + " FROM " + TABLE_BEHAVIOR_SETTING + " WHERE " + COLUMN_BEHAVIOR_SETTING_NAME + "='" + name +"'";
+        cursor = db.rawQuery(sql,null);
+
+        cursor.moveToFirst();
+        int size = cursor.getCount();
+        if(size<1) {
+            close();
+            return color;
+        }
+
+        color = cursor.getInt(0);
+
+        return color;
+    }
+
     public ArrayList<ContentValues> getActSettingList(){
         ArrayList<ContentValues> al = new ArrayList<ContentValues>();
         SQLiteDatabase db = getReadableDatabase();
@@ -437,7 +459,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
 
-        return null;
+        return "정보없음";
     }
 
     public double getDistance(double lat1, double lng1, double lat2, double lng2){
