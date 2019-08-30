@@ -1,12 +1,16 @@
 package com.hsproject.actlogger;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +53,7 @@ public class BehaviorFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    GridLayout grdLayout;
     TextView txtDate;
 
     public BehaviorFragment() {
@@ -89,6 +94,9 @@ public class BehaviorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_behavior, container, false);
+
+        grdLayout = (GridLayout) view.findViewById(R.id.grdLayout);
+
         updateLocationInfo(view);
 
         Date date = new Date(System.currentTimeMillis());
@@ -101,7 +109,13 @@ public class BehaviorFragment extends Fragment {
         String getDate = sdf2.format(date);
 
         txtDate = ((TextView)view.findViewById(R.id.txtDate));
-        txtDate.setText(getDate);
+        //txtDate.setText(getDate);
+        String temp[];
+        temp = getDate.split(" ");
+        int year = Integer.parseInt(temp[0].replace("년",""));
+        int month = Integer.parseInt(temp[1].replace("월",""));
+        int dayOfMonth = Integer.parseInt(temp[2].replace("일",""));
+        setDate(year, month, dayOfMonth);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,10 +233,38 @@ public class BehaviorFragment extends Fragment {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy년 M월 d일");
         Date date = null;
         try {
+            ArrayList<ContentValues> timeActList = new ArrayList<ContentValues>();
+
             date = sdf.parse(txtDate.getText().toString());
             long startTime = date.getTime()+(1000*60*60*9); // 09시부터
             long endTime = startTime+(1000*60*60*24*1 - 1); //다음날 09시 이전까지
             ArrayList<ContentValues> al = db.getActLogFromTo(startTime, endTime);
+            int findIndex = 0;
+            int timeTableRowCount = 0;
+            for( long i=startTime; i<startTime+(1000*60*60*24); i=i+(1000*60*10)){
+                int lastFindIndex = findIndex;
+                for(int j=findIndex; j<al.size(); j++){
+                    if(i==al.get(j).getAsLong(db.COLUMN_BEHAVIOR_TIMESTAMP)) {
+                        findIndex = j;
+                        break;
+                    }
+                }
+                ContentValues cv = new ContentValues();
+                if(lastFindIndex==findIndex){
+                    cv.put("index",timeTableRowCount);
+                    cv.put("name","정보없음");
+                    //setTextViewWithBehaviorsTime(timeTableRowCount,1, "정보없음");
+                    timeActList.add(cv);
+                    timeTableRowCount++;
+                }else{
+                    cv.put("index",timeTableRowCount);
+                    cv.put("name",al.get(findIndex).getAsString(db.COLUMN_BEHAVIOR_NAME));
+                    //setTextViewWithBehaviorsTime(timeTableRowCount,1, al.get(findIndex).getAsString(db.COLUMN_BEHAVIOR_NAME));
+                    timeActList.add(cv);
+                    timeTableRowCount++;
+                }
+            }
+            setTextViewWithBehaviorsTime(timeActList);
 
             Log.d(TAG, al.toString());
         } catch (ParseException e) {
@@ -277,5 +319,60 @@ public class BehaviorFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    private void setTextViewWithBehaviorsTime(ArrayList<ContentValues> timeActList){
+
+        final float scale = getResources().getDisplayMetrics().density;
+
+        ArrayList<ContentValues> actSettingList = db.getActSettingList();
+        /*
+                    <TextView
+                        android:layout_height="30dp"
+                        android:id="@+id/view09_1"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:background="#b5e8e2"
+                        app:layout_gravity="fill"
+                        android:text="정보없음" />
+         */
+        Log.d(TAG,timeActList.toString());
+        for(int i=0; i<timeActList.size(); i++) {
+            int StartSameActIndex = i;
+            int EndSameActIndex = i;
+            String actName = timeActList.get(i).getAsString("name");
+
+            for(int j=i+1; j<timeActList.size(); j++)
+                if(actName.equals(timeActList.get(j).getAsString("name")))
+                    EndSameActIndex++;
+                else
+                    break;
+
+            int span = (EndSameActIndex - StartSameActIndex + 1);
+
+            TextView txtView = new TextView(getContext());
+            txtView.setText(actName);
+
+            txtView.setBackgroundColor(Color.rgb(200,200,200));
+            for(int j=0; j<actSettingList.size(); j++)
+                if(actName.equals(actSettingList.get(j).getAsString(db.COLUMN_BEHAVIOR_SETTING_NAME)))
+                    txtView.setBackgroundColor(actSettingList.get(j).getAsInteger(db.COLUMN_BEHAVIOR_SETTING_COLOR));
+
+            txtView.setHeight((int) (scale * 15 * span));
+            txtView.setGravity(Gravity.CENTER);
+
+            GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+            layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
+
+            layoutParams.rowSpec = GridLayout.spec(i, span);
+            layoutParams.columnSpec = GridLayout.spec(1, 1);
+
+            layoutParams.setGravity(Gravity.FILL);
+
+            grdLayout.addView(txtView, layoutParams);
+
+            i += (EndSameActIndex - StartSameActIndex);
+        }
     }
 }

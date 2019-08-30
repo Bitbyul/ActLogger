@@ -70,167 +70,189 @@
             </TableRow>
             </TableLayout>
             <ScrollView
+                android:background="@drawable/grid_corner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.v7.widget.GridLayout
-                    android:background="@drawable/table_corner"
-                    android:layout_margin="10dp"
+                    android:id="@+id/grdLayout"
                     app:columnCount="2"
-                    app:rowCount="24"
+                    app:rowCount="144"
+                    android:layout_margin="5dp"
                     app:orientation= "vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="09" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="10" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="11" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="12" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="13" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="14" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="15" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="16" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="17" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="18" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="19" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="20" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="21" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="22" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="23" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="00" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="01" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="02" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="03" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="04" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="05" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="06" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="07" />
                     <TextView
+                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="90dp"
                         android:gravity="center"
                         android:text="08" />
                     <TextView
-                        android:layout_span="2"
-                        android:id="@+id/view09"
-                        android:layout_width="wrap_content"
-                        android:layout_height="80dp"
-                        android:gravity="center"
-                        android:background="#dddddd"
-                        app:layout_gravity="fill"
                         app:layout_rowSpan="1"
+                        android:layout_height="15dp"
+                        android:id="@+id/view09_0"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:background="#facbba"
+                        app:layout_gravity="fill"
                         android:text="정보없음" />
                     <TextView
-                        android:layout_span="2"
-                        android:id="@+id/view10"
+                        app:layout_rowSpan="2"
+                        android:layout_height="30dp"
+                        android:id="@+id/view09_1"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
                         android:gravity="center"
-                        android:background="#dddddd"
+                        android:background="#b5e8e2"
                         app:layout_gravity="fill"
-                        app:layout_rowSpan="1"
                         android:text="정보없음" />
                     <TextView
-                        android:layout_span="2"
-                        android:id="@+id/view11"
+                        app:layout_rowSpan="8"
+                        android:layout_height="120dp"
+                        android:id="@+id/view09_3"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
                         android:gravity="center"
-                        android:background="#dddddd"
+                        android:background="#ffdfd3"
                         app:layout_gravity="fill"
-                        app:layout_rowSpan="1"
                         android:text="정보없음" />
 
                 </android.support.v7.widget.GridLayout>

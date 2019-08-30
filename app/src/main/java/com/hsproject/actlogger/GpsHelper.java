@@ -26,8 +26,8 @@ public class GpsHelper {
     //LocationProvider lProvider;
     LocationListener lListener;
 
-    private final int GPS_INTERVAL_TIME_MS = 10000;
-    private final int GPS_DISTANCE_DELTA_M = 10;
+    private final int GPS_INTERVAL_TIME_MS = 1000 * 60 * 3; // 3분마다
+    private final int GPS_DISTANCE_DELTA_M = 0;
 
     Geocoder geocoder; // 역지오코딩 하기 위해
 
@@ -69,7 +69,7 @@ public class GpsHelper {
 
 
         String provider = location.getProvider();
-        double time = location.getTime();
+        long time = location.getTime();
         double speed = location.getSpeed()*3.6f;
         double heading = location.getBearing();
         double accuracy = location.getAccuracy();
@@ -85,11 +85,12 @@ public class GpsHelper {
                 "속도 : " + speed + "\n" +
                 "방향 : " + heading + "\n" +
                 "정확도 : " + accuracy);
-
+        // GPS로 위치 탐색
         lManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 GPS_INTERVAL_TIME_MS,
                 GPS_DISTANCE_DELTA_M,
                 gpsLocationListener);
+        // 네트워크로 위치 탐색
         lManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                 GPS_INTERVAL_TIME_MS,
                 GPS_DISTANCE_DELTA_M,
@@ -102,7 +103,7 @@ public class GpsHelper {
         public void onLocationChanged(Location location) {
 
             String provider = location.getProvider();
-            double time = location.getTime();
+            long time = location.getTime();
             double speed = location.getSpeed()*3.6f;
             double heading = location.getBearing();
             double accuracy = location.getAccuracy();

@@ -238,7 +238,8 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
             @Override
             public void onClick(View v) {
                 long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
-
+                result = ((MainActivity)getActivity()).db.deleteBehaviorsAsName(((MainActivity) getActivity()).pickedAct);
+                
                 ((MainActivity)getActivity()).replaceFragmentDetail(false);
             }
         });

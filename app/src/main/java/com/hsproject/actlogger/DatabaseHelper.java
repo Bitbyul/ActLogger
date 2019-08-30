@@ -26,9 +26,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LOCATION_PROVIDER = "provider"; // 정보제공자 TYPE : 문자열
 
     //활동정보(위치-활동 연계) 저장 DB
-    private static final String TABLE_BEHAVIOR = "behaviors";
-    private static final String COLUMN_BEHAVIOR_TIMESTAMP = "timestamp"; // 시간 TYPE : 정수
-    private static final String COLUMN_BEHAVIOR_NAME = "name"; // 활동이름 TYPE : 문자열
+    public static final String TABLE_BEHAVIOR = "behaviors";
+    public static final String COLUMN_BEHAVIOR_TIMESTAMP = "timestamp"; // 시간 TYPE : 정수
+    public static final String COLUMN_BEHAVIOR_NAME = "name"; // 활동이름 TYPE : 문자열
 
     //활동정보 업데이트 정보 저장 DB
     private static final String TABLE_BEHAVIOR_LAST = "behaviorlast";
@@ -292,6 +292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long updateActLogFromLast(){
+        Log.d(TAG, "updateActLogFromLast()");
+
         long result = 0;
         long lastUpdatedTimestamp;
         long min_10 = 1000*60*10;
@@ -314,8 +316,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, "lastUpdatedTimestamp = " + ((lastUpdatedTimestamp/min_10) + 1) * (min_10));
 
-        sql = "SELECT " + COLUMN_LOCATION_TIMESTAMP+","+COLUMN_LOCATION_LATITUDE+","+COLUMN_LOCATION_LONGITUDE
-                + " FROM " + TABLE_LOCATION + " WHERE " + COLUMN_LOCATION_TIMESTAMP + ">=" + ((lastUpdatedTimestamp/min_10) + 1) * (min_10) + " ORDER BY " + COLUMN_LOCATION_TIMESTAMP;
+        sql = "SELECT " + COLUMN_LOCATION_TIMESTAMP+","+COLUMN_LOCATION_LATITUDE+","+COLUMN_LOCATION_LONGITUDE+","+COLUMN_LOCATION_ACCURACY
+                + " FROM " + TABLE_LOCATION + " WHERE " + COLUMN_LOCATION_TIMESTAMP + ">=" + (((lastUpdatedTimestamp/min_10) + 1) * (min_10)) + " ORDER BY " + COLUMN_LOCATION_TIMESTAMP;
         cursor = db.rawQuery(sql,null);
 
         while(cursor.moveToNext()){
@@ -324,10 +326,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             long timestamp = cursor.getLong(0);
             double latitude = cursor.getDouble(1);
             double longitude = cursor.getDouble(2);
+            double accuracy = cursor.getDouble(3);
 
             cv.put(COLUMN_LOCATION_TIMESTAMP, timestamp);
             cv.put(COLUMN_LOCATION_LATITUDE, latitude);
             cv.put(COLUMN_LOCATION_LONGITUDE, longitude);
+            cv.put(COLUMN_LOCATION_ACCURACY, accuracy);
 
             locationLogList.add(cv);
         }
@@ -335,22 +339,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long timestamp;
         long timestamp_next = 0;
         long unique = 0;
+        double accuracy = 0;
+        int bestIndex = 0;
 
         for(int i=0; i<locationLogList.size(); i++) {
             timestamp = locationLogList.get(i).getAsLong(COLUMN_LOCATION_TIMESTAMP);
+            accuracy = locationLogList.get(i).getAsDouble(COLUMN_LOCATION_ACCURACY);
+            bestIndex = i;
             unique = timestamp / min_10;
 
-            if(i != locationLogList.size()-1) {
-                timestamp_next = locationLogList.get(i + 1).getAsLong(COLUMN_LOCATION_TIMESTAMP);
-                if (unique == (timestamp_next / min_10))
-                    continue;
-            }
+            //if(i != locationLogList.size()-1) {
+                int j;
+                for(j=i+1; j<locationLogList.size(); j++) {
+                    timestamp_next = locationLogList.get(j).getAsLong(COLUMN_LOCATION_TIMESTAMP);
+                    if (unique == (timestamp_next / min_10)) {
+                        // 10분 중에 가장 정확한 위치정보 사용
+                        if(accuracy < locationLogList.get(j).getAsDouble(COLUMN_LOCATION_ACCURACY)) {
+                            accuracy = locationLogList.get(j).getAsDouble(COLUMN_LOCATION_ACCURACY);
+                            bestIndex = j;
+                        }
+                        continue;
+                    }else {
+                        break;
+                    }
+                }
+                i = j-1;
+            //}
 
             String name;
-            name = isInArea(locationLogList.get(i).getAsDouble(COLUMN_LOCATION_LATITUDE), locationLogList.get(i).getAsDouble(COLUMN_LOCATION_LONGITUDE));
+            name = isInArea(locationLogList.get(bestIndex).getAsDouble(COLUMN_LOCATION_LATITUDE), locationLogList.get(bestIndex).getAsDouble(COLUMN_LOCATION_LONGITUDE));
 
             insertBehavior(unique*min_10, name);
         }
+
+        return result;
+    }
+
+    public long deleteBehaviorsAsName(String name){
+        long result = getWritableDatabase().delete(TABLE_BEHAVIOR, "name=?",new String[]{name});
 
         return result;
     }
