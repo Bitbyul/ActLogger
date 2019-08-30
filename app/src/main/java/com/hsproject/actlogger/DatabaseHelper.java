@@ -354,7 +354,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     timestamp_next = locationLogList.get(j).getAsLong(COLUMN_LOCATION_TIMESTAMP);
                     if (unique == (timestamp_next / min_10)) {
                         // 10분 중에 가장 정확한 위치정보 사용
-                        if(accuracy < locationLogList.get(j).getAsDouble(COLUMN_LOCATION_ACCURACY)) {
+                        if(accuracy > locationLogList.get(j).getAsDouble(COLUMN_LOCATION_ACCURACY)) {
                             accuracy = locationLogList.get(j).getAsDouble(COLUMN_LOCATION_ACCURACY);
                             bestIndex = j;
                         }

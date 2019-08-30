@@ -201,8 +201,9 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if(isOpen)
             transaction.replace(R.id.frame_layout, actsettingfragment_detail).commitAllowingStateLoss();
-        else // close
-            transaction.replace(R.id.frame_layout, actsettingfragment).commitAllowingStateLoss();
+        else { // close
+            transaction.remove(actsettingfragment_detail).replace(R.id.frame_layout, actsettingfragment).commitAllowingStateLoss();
+        }
     }
 
 }

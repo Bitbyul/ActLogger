@@ -111,6 +111,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                 if( keyCode == KeyEvent.KEYCODE_BACK )
                 {
                     Log.d(TAG,"BACK키 감지");
+                    spnActList.setSelection(0);
                     ((MainActivity)getActivity()).replaceFragmentDetail(false);
                     return true;
                 }
@@ -133,7 +134,6 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,actList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnActList.setAdapter(adapter);
-
         spnActList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -239,7 +239,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
             public void onClick(View v) {
                 long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
                 result = ((MainActivity)getActivity()).db.deleteBehaviorsAsName(((MainActivity) getActivity()).pickedAct);
-                
+
                 ((MainActivity)getActivity()).replaceFragmentDetail(false);
             }
         });
@@ -248,6 +248,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
         ((Button)view.findViewById(R.id.btnCancel)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                spnActList.setSelection(0);
                 ((MainActivity)getActivity()).replaceFragmentDetail(false);
             }
         });
@@ -266,6 +267,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                 long result = ((MainActivity)getActivity()).db.insertActSetting(spnActList.getSelectedItem().toString(), ((ColorDrawable) btnColor.getBackground()).getColor(), mapPointGeo.latitude, mapPointGeo.longitude,
                         skbRange.getProgress(), "");
 
+                spnActList.setSelection(0);
                 ((MainActivity)getActivity()).replaceFragmentDetail(false);
             }
         });
