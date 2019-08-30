@@ -358,7 +358,7 @@ public class BehaviorFragment extends Fragment {
                 if(actName.equals(actSettingList.get(j).getAsString(db.COLUMN_BEHAVIOR_SETTING_NAME)))
                     txtView.setBackgroundColor(actSettingList.get(j).getAsInteger(db.COLUMN_BEHAVIOR_SETTING_COLOR));
 
-            txtView.setHeight((int) (scale * 15 * span));
+            //txtView.setHeight((int) (scale * 15 * span));
             txtView.setGravity(Gravity.CENTER);
 
             GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
