@@ -2,7 +2,6 @@ package com.hsproject.actlogger;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -83,7 +82,7 @@ public class ActsettingFragment extends Fragment {
         addplan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragmentDetail(true);
+                ((MainActivity)getActivity()).replaceActsettingFragmentDetail(true);
             }
          });
         RecyclerView recyclerView = view.findViewById(R.id.rcvActList);

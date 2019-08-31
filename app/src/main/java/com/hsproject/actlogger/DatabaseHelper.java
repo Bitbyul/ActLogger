@@ -399,7 +399,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long deleteBehaviorsAsName(String name){
-        long result = getWritableDatabase().delete(TABLE_BEHAVIOR, "name=?",new String[]{name});
+        long result = getWritableDatabase().delete(TABLE_BEHAVIOR, COLUMN_BEHAVIOR_NAME+"=?",new String[]{name});
+
+        close();
+        return result;
+    }
+
+    public long deleteBehaviorsFromTo(long startTime, long endTime){ // startTime <= x < endTime
+        long result = getWritableDatabase().delete(TABLE_BEHAVIOR, COLUMN_BEHAVIOR_TIMESTAMP+" BETWEEN ? AND ?",new String[]{Long.toString(startTime), Long.toString(endTime-10)});
+
+        close();
+        return result;
+    }
+
+    public long updateBehaviorsFromTo(String name, long startTime, long endTime){ // startTime <= x < endTime
+        Log.d(TAG, "updateBehaviorsFromTo("+name+", "+startTime+", "+endTime+")");
+        long result = 0;
+
+        deleteBehaviorsFromTo(startTime, endTime);
+
+        for(long i=startTime; i<endTime; i+=(1000*60*10)) {
+            result = insertBehavior(i, name);
+        }
 
         return result;
     }

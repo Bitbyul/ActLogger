@@ -1,18 +1,11 @@
 package com.hsproject.actlogger;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -23,19 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
-
-import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, ColorPickerDialogListener,
         BehaviorFragment.OnFragmentInteractionListener,
+        BehaviorDetailFragment.OnFragmentInteractionListener,
         StatisticsFragment.OnFragmentInteractionListener,
         ActsettingFragment.OnFragmentInteractionListener,
-        ActsettingFragment_detail.OnFragmentInteractionListener {
+        ActsettingDetailFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
 
@@ -46,11 +36,15 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager = getSupportFragmentManager();
     // 4개의 메뉴에 들어갈 Fragment들
     private BehaviorFragment behaviorfragment = new BehaviorFragment();
+    private BehaviorDetailFragment behaviordetailfragment = new BehaviorDetailFragment();
     private StatisticsFragment statisticsfragment = new StatisticsFragment();
     private ActsettingFragment actsettingfragment = new ActsettingFragment();
-    private ActsettingFragment_detail actsettingfragment_detail = new ActsettingFragment_detail();
+    private ActsettingDetailFragment actsettingdetailfragment = new ActsettingDetailFragment();
 
     public String pickedAct = "";
+    public long selectedDateTimestamp = 0;
+    public int selectedTimeIndex = 0;
+    public int selectedTimeSpan = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,12 +191,21 @@ public class MainActivity extends AppCompatActivity
         // ToDo..
     }
 
-    public void replaceFragmentDetail(boolean isOpen){
+    public void replaceBehaviorFragmentDetail(boolean isOpen){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if(isOpen)
-            transaction.replace(R.id.frame_layout, actsettingfragment_detail).commitAllowingStateLoss();
+            transaction.replace(R.id.frame_layout, behaviordetailfragment).commitAllowingStateLoss();
         else { // close
-            transaction.remove(actsettingfragment_detail).replace(R.id.frame_layout, actsettingfragment).commitAllowingStateLoss();
+            transaction.remove(behaviordetailfragment).replace(R.id.frame_layout, behaviorfragment).commit();
+        }
+    }
+
+    public void replaceActsettingFragmentDetail(boolean isOpen){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(isOpen)
+            transaction.replace(R.id.frame_layout, actsettingdetailfragment).commitAllowingStateLoss();
+        else { // close
+            transaction.remove(actsettingdetailfragment).replace(R.id.frame_layout, actsettingfragment).commitAllowingStateLoss();
         }
     }
 

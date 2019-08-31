@@ -55,6 +55,7 @@ public class BehaviorFragment extends Fragment {
 
     GridLayout grdLayout;
     TextView txtDate;
+    ArrayList<TextView> timeViewList = new ArrayList<TextView>();
 
     public BehaviorFragment() {
 
@@ -265,6 +266,7 @@ public class BehaviorFragment extends Fragment {
                 }
             }
             setTextViewWithBehaviorsTime(timeActList);
+            ((MainActivity)getActivity()).selectedDateTimestamp = date.getTime();
 
             Log.d(TAG, al.toString());
         } catch (ParseException e) {
@@ -337,10 +339,17 @@ public class BehaviorFragment extends Fragment {
                         android:text="정보없음" />
          */
         Log.d(TAG,timeActList.toString());
+        for(int i=0; i<timeViewList.size(); i++){
+            timeViewList.get(i).setOnClickListener(null);
+            timeViewList.get(i).setVisibility(View.GONE);
+        }
+        timeViewList.clear();
+
         for(int i=0; i<timeActList.size(); i++) {
             int StartSameActIndex = i;
             int EndSameActIndex = i;
-            String actName = timeActList.get(i).getAsString("name");
+            final String actName = timeActList.get(i).getAsString("name");
+            final int indexOfTime = i;
             Log.d(TAG,actName);
 
             for (int j = i + 1; j < timeActList.size(); j++)
@@ -349,9 +358,10 @@ public class BehaviorFragment extends Fragment {
                 else
                     break;
 
-            int span = (EndSameActIndex - StartSameActIndex + 1);
+            final int span = (EndSameActIndex - StartSameActIndex + 1);
 
             TextView txtView = new TextView(getContext());
+            timeViewList.add(txtView);
             txtView.setText(actName);
 
             txtView.setBackgroundColor(Color.rgb(200,200,200));
@@ -361,6 +371,17 @@ public class BehaviorFragment extends Fragment {
 
             txtView.setHeight((int) (scale * 15 * span));
             txtView.setGravity(Gravity.CENTER);
+
+            txtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity mainActivity = (MainActivity)getActivity();
+                    mainActivity.pickedAct = actName;
+                    mainActivity.selectedTimeIndex = indexOfTime;
+                    mainActivity.selectedTimeSpan = span;
+                    mainActivity.replaceBehaviorFragmentDetail(true);
+                }
+            });
 
             GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
             layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;

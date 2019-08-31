@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -37,14 +36,14 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ActsettingFragment_detail.OnFragmentInteractionListener} interface
+ * {@link ActsettingDetailFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ActsettingFragment_detail#newInstance} factory method to
+ * Use the {@link ActsettingDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ActsettingFragment_detail extends Fragment implements MapView.MapViewEventListener {
+public class ActsettingDetailFragment extends Fragment implements MapView.MapViewEventListener {
 
-    private static final String TAG = "ActsettingFragment_detail";
+    private static final String TAG = "ActsettingDetailFragment";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,7 +63,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
     private Button btnColor;
     private Button btnDelete;
 
-    public ActsettingFragment_detail() {
+    public ActsettingDetailFragment() {
         // Required empty public constructor
     }
 
@@ -77,8 +76,8 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
      * @return A new instance of fragment ActsettingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ActsettingFragment_detail newInstance(String param1, String param2) {
-        ActsettingFragment_detail fragment = new ActsettingFragment_detail();
+    public static ActsettingDetailFragment newInstance(String param1, String param2) {
+        ActsettingDetailFragment fragment = new ActsettingDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -113,7 +112,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                 {
                     Log.d(TAG,"BACK키 감지");
                     spnActList.setSelection(0);
-                    ((MainActivity)getActivity()).replaceFragmentDetail(false);
+                    ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
                     return true;
                 }
                 return false;
@@ -241,7 +240,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                 long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
                 result = ((MainActivity)getActivity()).db.deleteBehaviorsAsName(((MainActivity) getActivity()).pickedAct);
 
-                ((MainActivity)getActivity()).replaceFragmentDetail(false);
+                ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }
         });
 
@@ -250,7 +249,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
             @Override
             public void onClick(View v) {
                 spnActList.setSelection(0);
-                ((MainActivity)getActivity()).replaceFragmentDetail(false);
+                ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }
         });
 
@@ -273,7 +272,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                         skbRange.getProgress(), "");
 
                 spnActList.setSelection(0);
-                ((MainActivity)getActivity()).replaceFragmentDetail(false);
+                ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }
         });
 

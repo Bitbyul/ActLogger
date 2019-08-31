@@ -27,54 +27,57 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fa6690"
-                android:text="색상을 지정하세요" />
-
-            <Button
-                android:id="@+id/btnColor"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:textSize="0dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="50"
+            android:weightSum="100"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fa6690"
-                android:text="범위를 지정하세요" />
-            <SeekBar
-                android:id="@+id/skbRange"
-                android:progress="200"
-                android:max="1000"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fa6690"
-                android:text="지도를 옮겨 위치를 지정하세요" />
-            <net.daum.mf.map.api.MapView
-                android:id="@+id/daumMapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp"
+                android:layout_weight="50"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#fa6690"
+                    android:text="설정 시간" />
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:stretchColumns="1">
+                    <TableRow>
+                        <TextView
+                            android:id="@+id/txtStartTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="40sp"
+                            android:textColor="#fa6690"
+                            android:text="09:00" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:textColor="#fa6690"
+                            android:text="~" />
+                        <TextView
+                            android:id="@+id/txtEndTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="40sp"
+                            android:textColor="#fa6690"
+                            android:text="10:00" />
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -96,17 +99,10 @@
                     android:textSize="14sp"
                     android:textColor="#fa6690"
                     android:text="카테고리 목록" />
-                <Button
-                    android:id="@+id/btnAddCategory"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:textColor="#fa6690"
-                    android:text="+" />
             </LinearLayout>
             <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 

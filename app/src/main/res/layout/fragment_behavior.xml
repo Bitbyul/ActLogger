@@ -67,216 +67,244 @@
                     android:text="  장소 / 활동  " />
             </TableRow>
             </TableLayout>
+
             <ScrollView
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:layout_height="match_parent">
+                android:scrollbars="none">
 
                 <android.support.v7.widget.GridLayout
                     android:id="@+id/grdLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:paddingLeft="2dp"
                     android:paddingRight="3dp"
                     app:columnCount="2"
-                    app:rowCount="144"
-                    app:orientation= "vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    app:orientation="vertical"
+                    app:rowCount="144">
 
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
                         android:gravity="center"
-                        android:text="  09  " />
+                        android:text="  09  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  10  " />
+                        android:gravity="center"
+                        android:text="  10  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  11  " />
+                        android:gravity="center"
+                        android:text="  11  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  12  " />
+                        android:gravity="center"
+                        android:text="  12  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  13  " />
+                        android:gravity="center"
+                        android:text="  13  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  14  " />
+                        android:gravity="center"
+                        android:text="  14  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  15  " />
+                        android:gravity="center"
+                        android:text="  15  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  16  " />
+                        android:gravity="center"
+                        android:text="  16  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  17  " />
+                        android:gravity="center"
+                        android:text="  17  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  18  " />
+                        android:gravity="center"
+                        android:text="  18  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  19  " />
+                        android:gravity="center"
+                        android:text="  19  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  20  " />
+                        android:gravity="center"
+                        android:text="  20  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  21  " />
+                        android:gravity="center"
+                        android:text="  21  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  22  " />
+                        android:gravity="center"
+                        android:text="  22  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  23  " />
+                        android:gravity="center"
+                        android:text="  23  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  00  " />
+                        android:gravity="center"
+                        android:text="  00  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  01  " />
+                        android:gravity="center"
+                        android:text="  01  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  02  " />
+                        android:gravity="center"
+                        android:text="  02  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  03  " />
+                        android:gravity="center"
+                        android:text="  03  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  04  " />
+                        android:gravity="center"
+                        android:text="  04  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  05  " />
+                        android:gravity="center"
+                        android:text="  05  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  06  " />
+                        android:gravity="center"
+                        android:text="  06  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  07  " />
+                        android:gravity="center"
+                        android:text="  07  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="6"
                         android:layout_width="wrap_content"
                         android:layout_height="90dp"
-                        android:gravity="center"
                         android:background="@drawable/timetable_time_topline"
-                        android:text="  08  " />
+                        android:gravity="center"
+                        android:text="  08  "
+                        app:layout_rowSpan="6" />
+
                     <TextView
-                        app:layout_rowSpan="1"
-                        android:layout_height="15dp"
                         android:id="@+id/view09_0"
                         android:layout_width="wrap_content"
-                        android:gravity="center"
+                        android:layout_height="15dp"
                         android:background="#facbba"
+                        android:gravity="center"
+                        android:text="정보없음"
                         app:layout_gravity="fill"
-                        android:text="정보없음" />
+                        app:layout_rowSpan="1" />
+
                     <TextView
-                        app:layout_rowSpan="2"
-                        android:layout_height="30dp"
                         android:id="@+id/view09_1"
                         android:layout_width="wrap_content"
-                        android:gravity="center"
+                        android:layout_height="30dp"
                         android:background="#b5e8e2"
+                        android:gravity="center"
+                        android:text="정보없음"
                         app:layout_gravity="fill"
-                        android:text="정보없음" />
+                        app:layout_rowSpan="2" />
+
                     <TextView
-                        app:layout_rowSpan="8"
-                        android:layout_height="120dp"
                         android:id="@+id/view09_3"
                         android:layout_width="wrap_content"
-                        android:gravity="center"
+                        android:layout_height="120dp"
                         android:background="#ffdfd3"
+                        android:gravity="center"
+                        android:text="정보없음"
                         app:layout_gravity="fill"
-                        android:text="정보없음" />
+                        app:layout_rowSpan="8" />
 
                 </android.support.v7.widget.GridLayout>
                 <!--TableLayout
