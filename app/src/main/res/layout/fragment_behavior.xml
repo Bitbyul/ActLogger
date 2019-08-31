@@ -4,46 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context=".BehaviorFragment">
     <LinearLayout
+        android:background="@drawable/table_corner"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="100"
-        android:orientation="vertical">
-
+        android:orientation="vertical">=
         <LinearLayout
+            android:paddingTop="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="90"
             android:orientation="vertical">
             <TableLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/table_bottom_border"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:stretchColumns="1">
                 <TableRow>
                     <Button
                         android:id="@+id/btnPrev"
                         android:layout_width="40dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         style="?android:attr/borderlessButtonStyle"
-                        android:textColor="#fa6690"
+                        android:textColor="@color/colorPrimary"
                         android:text="◀" />
                     <TextView
                         android:id="@+id/txtDate"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:textSize="24sp"
-                        android:textColor="#fa6690"
+                        android:textColor="@color/colorPrimary"
                         android:text="2000년 01월 01일" />
                     <Button
                         android:id="@+id/btnNext"
                         android:layout_width="40dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         style="?android:attr/borderlessButtonStyle"
-                        android:textColor="#fa6690"
+                        android:textColor="@color/colorPrimary"
                         android:text="▶" />
                 </TableRow>
             </TableLayout>
@@ -57,30 +63,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="#fa6690"
+                    android:textColor="@color/colorPrimary"
                     android:text="  시간  " />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="#fa6690"
+                    android:textColor="@color/colorPrimary"
                     android:text="  장소 / 활동  " />
             </TableRow>
             </TableLayout>
 
             <ScrollView
+                android:background="@drawable/table_bottom_border"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
                 android:scrollbars="none">
 
                 <android.support.v7.widget.GridLayout
                     android:id="@+id/grdLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="3dp"
                     app:columnCount="2"
                     app:orientation="vertical"
                     app:rowCount="144">
@@ -428,14 +433,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:textColor="#fa6690"
+                android:textColor="@color/colorPrimary"
                 android:text="현재 위치 :" />
             <TextView
                 android:id="@+id/txtNowBehavior"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:textColor="#fa6690"
+                android:textColor="@color/colorPrimary"
                 android:text="현재 활동 :" />
         </LinearLayout>
     </LinearLayout>

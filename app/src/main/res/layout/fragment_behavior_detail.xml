@@ -3,92 +3,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context=".ActsettingDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
+        android:background="@drawable/table_corner"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="100"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingTop="2dp"
 
-            <Spinner
-                android:id="@+id/spnActList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="50"
-            android:weightSum="100"
+            android:layout_weight="65"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="50"
+                android:layout_weight="60"
+                android:weightSum="100"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#fa6690"
-                    android:text="설정 시간" />
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="50dp"
-                    android:paddingRight="50dp"
-                    android:stretchColumns="1">
-                    <TableRow>
-                        <TextView
-                            android:id="@+id/txtStartTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="40sp"
-                            android:textColor="#fa6690"
-                            android:text="09:00" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            android:textColor="#fa6690"
-                            android:text="~" />
-                        <TextView
-                            android:id="@+id/txtEndTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="40sp"
-                            android:textColor="#fa6690"
-                            android:text="10:00" />
-                    </TableRow>
-                </TableLayout>
+                    android:layout_height="0dp"
+                    android:layout_weight="50"
+                    android:orientation="vertical">
 
+                    <TableLayout
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
+                        android:background="@drawable/table_bottom_border"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:stretchColumns="1">
+                        <TableRow>
+                            <TextView
+                                android:id="@+id/txtStartTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="40sp"
+                                android:textColor="@color/colorPrimary"
+                                android:text="09:00" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorPrimary"
+                                android:text="~" />
+                            <TextView
+                                android:id="@+id/txtEndTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="40sp"
+                                android:textColor="@color/colorPrimary"
+                                android:text="10:00" />
+                        </TableRow>
+                    </TableLayout>
+                    <LinearLayout
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorPrimary"
+                            android:text="활동" />
+                        <TableLayout
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="0">
+                            <TableRow>
+                                <Spinner
+                                    android:id="@+id/spnActList"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
-
         </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="40"
+            android:layout_weight="25"
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -97,10 +113,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="14sp"
-                    android:textColor="#fa6690"
-                    android:text="카테고리 목록" />
+                    android:textColor="@color/colorPrimary"
+                    android:text="카테고리 선택" />
             </LinearLayout>
             <ListView
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -119,16 +136,20 @@
                 android:text="삭제"
                 android:visibility="invisible" />
             <Button
+                android:layout_gravity="bottom"
                 android:id="@+id/btnCancel"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorPrimary"
                 android:text="취소" />
             <Button
+                android:layout_gravity="bottom"
                 android:id="@+id/btnSave"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorPrimary"
                 android:text="저장" />
         </LinearLayout>
     </LinearLayout>

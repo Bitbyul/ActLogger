@@ -3,89 +3,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context=".ActsettingDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
+        android:background="@drawable/table_corner"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="100"
         android:orientation="vertical">
         <LinearLayout
+            android:paddingTop="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spnActList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="65"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/table_bottom_border"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:stretchColumns="0">
+                <TableRow>
+                <Spinner
+                    android:id="@+id/spnActList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                </TableRow>
+            </TableLayout>
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fa6690"
-                android:text="색상을 지정하세요" />
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="색상을 지정하세요" />
 
-            <Button
-                android:id="@+id/btnColor"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:textSize="0dp" />
+                <Button
+                    android:id="@+id/btnColor"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:textSize="0dp" />
 
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="범위를 지정하세요" />
+                <SeekBar
+                    android:id="@+id/skbRange"
+                    android:progress="200"
+                    android:max="1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="지도를 옮겨 위치를 지정하세요" />
+                <net.daum.mf.map.api.MapView
+                    android:id="@+id/daumMapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="50"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fa6690"
-                android:text="범위를 지정하세요" />
-            <SeekBar
-                android:id="@+id/skbRange"
-                android:progress="200"
-                android:max="1000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="#fa6690"
-                android:text="지도를 옮겨 위치를 지정하세요" />
-            <net.daum.mf.map.api.MapView
-                android:id="@+id/daumMapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="40"
+            android:layout_weight="25"
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -94,20 +106,20 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="14sp"
-                    android:textColor="#fa6690"
+                    android:textColor="@color/colorPrimary"
                     android:text="카테고리 목록" />
                 <Button
                     android:id="@+id/btnAddCategory"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     style="?android:attr/borderlessButtonStyle"
-                    android:textColor="#fa6690"
+                    android:textColor="@color/colorPrimary"
                     android:text="+" />
             </LinearLayout>
             <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <LinearLayout
@@ -116,23 +128,34 @@
             android:layout_weight="10"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/btnDelete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:visibility="invisible" />
+            <Button
+                android:layout_gravity="bottom"
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorPrimary"
                 android:text="삭제"
                 android:visibility="invisible" />
             <Button
+                android:layout_gravity="bottom"
                 android:id="@+id/btnCancel"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorPrimary"
                 android:text="취소" />
             <Button
+                android:layout_gravity="bottom"
                 android:id="@+id/btnSave"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorPrimary"
                 android:text="저장" />
         </LinearLayout>
     </LinearLayout>

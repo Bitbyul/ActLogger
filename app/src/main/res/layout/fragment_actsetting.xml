@@ -3,48 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context="ActsettingFragment">
 
     <LinearLayout
+        android:background="@drawable/table_corner"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="100"
         android:orientation="vertical">
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="1">
-            <TableRow>
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:textColor="#fa6690"
-                    android:text="" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textColor="#fa6690"
-                    android:gravity="center"
-                    android:text="활동 설정" />
-                <Button
-                    android:id="@+id/addplan"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:textColor="#fa6690"
-                    android:text="+" />
-            </TableRow>
-        </TableLayout>
+        <LinearLayout
+            android:paddingTop="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="100"
+            android:orientation="vertical">
+            <TableLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/table_bottom_border"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:stretchColumns="1">
+                <TableRow>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="24sp"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="center"
+                        android:text="활동 설정" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="center"
+                        android:text="" />
+                    <Button
+                        android:id="@+id/addplan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:textColor="@color/colorPrimary"
+                        android:tint="@color/colorPrimary"
+                        android:drawableRight="@android:drawable/ic_menu_edit" />
+                </TableRow>
+            </TableLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rcvActList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcvActList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

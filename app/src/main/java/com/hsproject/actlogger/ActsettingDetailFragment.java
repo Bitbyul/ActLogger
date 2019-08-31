@@ -131,7 +131,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
         }
         actList.add("...새로운 항목 추가");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,actList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,actList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnActList.setAdapter(adapter);
         spnActList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -178,7 +178,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                             skbRange.setProgress(cv.getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_RANGE));
                             mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE)), false);
                             btnDelete.setVisibility(View.VISIBLE);
-                        } catch (java.lang.NullPointerException e) {
+                        } catch (NullPointerException e) {
                             //spnActList.setSelection(0);
                         }
                     }else{

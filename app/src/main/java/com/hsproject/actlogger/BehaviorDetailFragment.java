@@ -138,7 +138,7 @@ public class BehaviorDetailFragment extends Fragment {
         }
         Log.d(TAG, "selectedActName = " + selectedActName);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,actList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,actList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnActList.setAdapter(adapter);
 
