@@ -74,7 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
             txtActDetail02.setText(data.getCategory());
             btnColor.setText(data.getTitle());
             btnColor.setBackgroundColor(data.getColor());
-
+            /*
             btnColor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,6 +83,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
                     ColorPickerDialog.newBuilder().show((Activity)context);
                 }
             });
+            */
         }
     }
 }
