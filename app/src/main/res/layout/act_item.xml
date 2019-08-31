@@ -4,9 +4,10 @@
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:gravity="center_vertical"
-    android:layout_marginBottom="8dp"
-    android:background="@android:color/white">
+    android:layout_marginBottom="8dp">
     <Button
+        android:layout_gravity="top
+"
         android:id="@+id/btnColor"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="ㄴACT_DETAIL"
+            android:text="ACT_LOCATION"
             android:textColor="@android:color/black"
             android:textSize="13sp"/>
         <TextView
@@ -45,15 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="ㄴACT_DETAIL"
-            android:textColor="@android:color/black"
-            android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/txtActDetail03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:text="ㄴACT_DETAIL"
+            android:text="ㄴACT_CATEGORY\nㄴACT_CATEGORY"
             android:textColor="@android:color/black"
             android:textSize="13sp"/>
     </LinearLayout>

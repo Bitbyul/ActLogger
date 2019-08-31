@@ -152,7 +152,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                                     actList.remove(spnActList.getCount()-1);
                                     actList.add(edittext.getText().toString());
                                     actList.add("...새로운 항목 추가");
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,actList);
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,actList);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     spnActList.setAdapter(adapter);
                                     spnActList.setSelection(spnActList.getCount()-2); // 새로 추가된 항목으로 선택
