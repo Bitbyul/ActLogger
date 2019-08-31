@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 
@@ -163,7 +164,7 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
                     builder.setNegativeButton("취소",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    spnActList.setSelection(0);
                                 }
                             });
                     builder.show();
@@ -257,6 +258,10 @@ public class ActsettingFragment_detail extends Fragment implements MapView.MapVi
         ((Button)view.findViewById(R.id.btnSave)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(spnActList.getSelectedItemPosition()==0) {
+                    Toast.makeText(getContext(), "활동을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 double latitude = 0.0;
                 double longitude = 0.0;
 

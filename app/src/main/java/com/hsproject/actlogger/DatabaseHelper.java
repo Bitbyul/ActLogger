@@ -336,12 +336,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lastUpdatedTimestamp = cursor.getLong(0);
         }
 
-        Log.d(TAG, "lastUpdatedTimestamp = " + ((lastUpdatedTimestamp/min_10) + 1) * (min_10));
+        Log.d(TAG, "updateActLogFromLast() :" + (lastUpdatedTimestamp + min_10) + " AND " + (System.currentTimeMillis() / min_10) * min_10);
 
         sql = "SELECT " + COLUMN_LOCATION_TIMESTAMP+","+COLUMN_LOCATION_LATITUDE+","+COLUMN_LOCATION_LONGITUDE+","+COLUMN_LOCATION_ACCURACY
-                + " FROM " + TABLE_LOCATION + " WHERE " + COLUMN_LOCATION_TIMESTAMP + ">=" + (((lastUpdatedTimestamp/min_10) + 1) * (min_10)) + " ORDER BY " + COLUMN_LOCATION_TIMESTAMP;
+                + " FROM " + TABLE_LOCATION + " WHERE " + COLUMN_LOCATION_TIMESTAMP + " BETWEEN " + (lastUpdatedTimestamp + min_10) + " AND " + ((System.currentTimeMillis() / min_10) * min_10) + " ORDER BY " + COLUMN_LOCATION_TIMESTAMP;
         cursor = db.rawQuery(sql,null);
 
+        Log.d(TAG, "Location Log size = " + cursor.getCount());
         while(cursor.moveToNext()){
             ContentValues cv = new ContentValues();
 
