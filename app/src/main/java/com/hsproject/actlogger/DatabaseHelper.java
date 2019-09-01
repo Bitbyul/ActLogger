@@ -332,7 +332,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT "+ COLUMN_BEHAVIOR_TIMESTAMP+","+COLUMN_BEHAVIOR_NAME + " FROM " + TABLE_BEHAVIOR + " ORDER BY " + COLUMN_BEHAVIOR_TIMESTAMP + " DESC"; // 가장 최근 update된 TimeStamp 순으로 정렬
         cursor = db.rawQuery(sql,null);
 
-        cursor.moveToFirst();
+        //cursor.moveToFirst();
         int size = cursor.getCount();
         lastUpdatedTimestamp = 0;
         if(size>=1) {
