@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import net.daum.mf.map.api.MapPoint;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -53,7 +57,9 @@ public class BehaviorDetailFragment extends Fragment {
     Spinner spnActList;
     TextView txtStartTime;
     TextView txtEndTime;
+    TextView txtCategory;
     ListView listview;
+    ImageView imgColor;
 
     int startTime;
     int endTime;
@@ -113,7 +119,9 @@ public class BehaviorDetailFragment extends Fragment {
         spnActList = view.findViewById(R.id.spnActList);
         txtStartTime = view.findViewById(R.id.txtStartTime);
         txtEndTime = view.findViewById(R.id.txtEndTime);
+        txtCategory = view.findViewById(R.id.txtCategory);
         listview = (ListView) view.findViewById(R.id.lstCategory) ;
+        imgColor = view.findViewById(R.id.imgColor);
 
         view.setOnKeyListener( new View.OnKeyListener()
         {
@@ -164,11 +172,13 @@ public class BehaviorDetailFragment extends Fragment {
                         ((MainActivity) getActivity()).pickedAct = actName;
                         ContentValues cv = db.getActSettingByName(actName);
                         setCategoryListByActName(actName);
+                        imgColor.setBackgroundColor(cv.getAsInteger(db.COLUMN_BEHAVIOR_SETTING_COLOR));
                     } catch (java.lang.NullPointerException e) {
                         //spnActList.setSelection(0);
                     }
                 }else{
                     setCategoryListByActName("정보없음");
+                    imgColor.setBackgroundColor(Color.rgb(200,200,200));
                 }
             }
 
@@ -321,6 +331,7 @@ public class BehaviorDetailFragment extends Fragment {
                         listview.setSelection(finalI);
                     }
                 });
+                txtCategory.setText(category);
                 break;
             }
             if(i==LIST_MENU.size()-1) {
@@ -329,6 +340,7 @@ public class BehaviorDetailFragment extends Fragment {
                         listview.setSelection(0);
                     }
                 });
+                txtCategory.setText("미설정");
             }
         }
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
