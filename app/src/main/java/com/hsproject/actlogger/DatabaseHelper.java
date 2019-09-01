@@ -327,15 +327,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         Cursor cursor;
-        String sql = "SELECT "+ COLUMN_BEHAVIOR_TIMESTAMP + " FROM " + TABLE_BEHAVIOR + " ORDER BY " + COLUMN_BEHAVIOR_TIMESTAMP + " DESC limit 1"; // 가장 최근 update된 TimeStamp
+        String sql = "SELECT "+ COLUMN_BEHAVIOR_TIMESTAMP+","+COLUMN_BEHAVIOR_NAME + " FROM " + TABLE_BEHAVIOR + " ORDER BY " + COLUMN_BEHAVIOR_TIMESTAMP + " DESC"; // 가장 최근 update된 TimeStamp 순으로 정렬
         cursor = db.rawQuery(sql,null);
 
         cursor.moveToFirst();
         int size = cursor.getCount();
-        if(size<1) {
-            lastUpdatedTimestamp = 0;
-        }else {
-            lastUpdatedTimestamp = cursor.getLong(0);
+        lastUpdatedTimestamp = 0;
+        if(size>=1) {
+            while(cursor.moveToNext()){
+                if(!(cursor.getString(1).equals("정보없음"))) {
+                    lastUpdatedTimestamp = cursor.getLong(0);
+                    Log.d(TAG,cursor.getLong(0) + "========정보있음========");
+                    break;
+                }
+                Log.d(TAG,cursor.getLong(0) + "========정보없음========");
+            }
+
         }
 
         Log.d(TAG, "updateActLogFromLast() :" + (lastUpdatedTimestamp + min_10) + " AND " + (System.currentTimeMillis() / min_10) * min_10);
@@ -393,10 +400,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             String name;
             name = isInArea(locationLogList.get(bestIndex).getAsDouble(COLUMN_LOCATION_LATITUDE), locationLogList.get(bestIndex).getAsDouble(COLUMN_LOCATION_LONGITUDE));
-
+            deleteBehavior(unique*min_10);
             insertBehavior(unique*min_10, name);
         }
 
+        return result;
+    }
+
+
+    public long deleteBehavior(long timestamp){
+        long result = getWritableDatabase().delete(TABLE_BEHAVIOR, COLUMN_BEHAVIOR_TIMESTAMP+"=?",new String[]{Long.toString(timestamp)});
+
+        close();
         return result;
     }
 
@@ -428,7 +443,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long insertBehavior(long timestamp, String name){
-        Log.d(TAG, "행동 저장 : TimeStamp = " + timestamp + " / Name = " + name);
+        //Log.d(TAG, "행동 저장 : TimeStamp = " + timestamp + " / Name = " + name);
 
         long result = 0;
 
