@@ -102,10 +102,14 @@ public class BehaviorFragment extends Fragment {
         updateLocationInfo(view);
 
         Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf1 = new SimpleDateFormat("HH");
-        String getTime = sdf1.format(date);
-        if(Integer.parseInt(getTime) < 9) // 9시 이전일 경우
-            date = new Date(System.currentTimeMillis() - (1000*60*60*24)); // 1일 전으로 설정
+        if(((MainActivity)getActivity()).selectedDateTimestamp==0) {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("HH");
+            String getTime = sdf1.format(date);
+            if (Integer.parseInt(getTime) < 9) // 9시 이전일 경우
+                date = new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 24)); // 1일 전으로 설정
+        }else{
+            date = new Date(((MainActivity)getActivity()).selectedDateTimestamp);
+        }
 
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 M월 d일");
         String getDate = sdf2.format(date);
