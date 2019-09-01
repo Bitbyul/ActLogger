@@ -201,7 +201,7 @@ public class BehaviorFragment extends Fragment {
 
         String addr = ((MainActivity)getActivity()).gps.reverseCoding(myLatitude, myLongitude);
         Date dateObj = new Date(cv.getAsLong(DatabaseHelper.COLUMN_LOCATION_TIMESTAMP));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String date =  dateFormat.format(dateObj) ;
 
         txtNowLocation = (TextView) view.findViewById(R.id.txtNowLocation);
