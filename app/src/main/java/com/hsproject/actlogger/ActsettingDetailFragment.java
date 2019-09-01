@@ -176,8 +176,8 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                     builder.show();
                 }else{
                     if(position!=0) {
+                        String actName = ((TextView) view).getText().toString();
                         try {
-                            String actName = ((TextView) view).getText().toString();
                             Log.d(TAG, "활동 항목 '" + actName + "' 선택됨");
                             ((MainActivity) getActivity()).pickedAct = actName;
                             ContentValues cv = ((MainActivity) getActivity()).db.getActSettingByName(actName);
@@ -185,11 +185,10 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                             skbRange.setProgress(cv.getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_RANGE));
                             mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE)), false);
                             btnDelete.setVisibility(View.VISIBLE);
-
-                            setCategoryListByActName(actName);
                         } catch (NullPointerException e) {
                             //spnActList.setSelection(0);
                         }
+                        setCategoryListByActName(actName);
                     }else{
                         btnDelete.setVisibility(View.INVISIBLE);
                     }
@@ -281,7 +280,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
             @Override
             public void onClick(View v) {
                 long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
-                result = ((MainActivity)getActivity()).db.deleteBehaviorsAsName(((MainActivity) getActivity()).pickedAct);
+                result = ((MainActivity)getActivity()).db.deleteBehaviorsByName(((MainActivity) getActivity()).pickedAct);
 
                 ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }

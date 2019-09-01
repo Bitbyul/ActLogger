@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:gravity="center_vertical"
-    android:layout_marginBottom="8dp">
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:gravity="center_vertical">
     <Button
         android:layout_gravity="top
 "
@@ -46,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="ㄴACT_CATEGORY\nㄴACT_CATEGORY"
+            android:text="┗ ACT_CATEGORY\n┗ ACT_CATEGORY"
             android:textColor="@android:color/black"
             android:textSize="13sp"/>
     </LinearLayout>

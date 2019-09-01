@@ -99,11 +99,19 @@ public class ActsettingFragment extends Fragment {
             double latitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE);
             double longitude = actList.get(i).getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE);
             String address = ((MainActivity)getActivity()).gps.reverseCoding(latitude,longitude);
-
+            String categories = "";
+            String categoryRow = actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST);
+            if(!categoryRow.equals("")) {
+                String temp[] = actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST).split("\\|\\|");
+                for (int j = 0; j < temp.length; j++)
+                    categories += "┗ " + temp[j] + "\n";
+            }else{
+                categories += "\n";
+            }
             ActSetData data = new ActSetData();
             data.setTitle(actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_NAME));
             data.setContent(address);
-            data.setCategory(actList.get(i).getAsString(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_CATEGORY));
+            data.setCategory(categories);
             data.setColor(actList.get(i).getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_COLOR));
 
             adapter.addItem(data);

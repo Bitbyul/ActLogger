@@ -8,9 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.location.Location;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "database.sqlite";
@@ -32,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_BEHAVIOR = "behaviors";
     public static final String COLUMN_BEHAVIOR_TIMESTAMP = "timestamp"; // 시간 TYPE : 정수
     public static final String COLUMN_BEHAVIOR_NAME = "name"; // 활동이름 TYPE : 문자열
+    public static final String COLUMN_BEHAVIOR_CATEGORY = "category"; // 활동 세부 카테고리 TYPE : 문자열
 
     //활동정보 업데이트 정보 저장 DB
     private static final String TABLE_BEHAVIOR_LAST = "behaviorlast";
@@ -46,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_BEHAVIOR_SETTING_LATITUDE = "latitude"; // 활동위도 TYPE : 실수
     public static final String COLUMN_BEHAVIOR_SETTING_LONGITUDE = "longitude"; // 활동경도 TYPE : 실수
     public static final String COLUMN_BEHAVIOR_SETTING_RANGE = "range"; // 활동범위 TYPE : 정수
-    public static final String COLUMN_BEHAVIOR_SETTING_CATEGORY = "category"; // 활동 세부 카테고리 TYPE : 문자열
+    public static final String COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST = "category"; // 활동 세부 카테고리 TYPE : 문자열
 
     private static final String TAG = "DatabaseHelper";
 
@@ -72,7 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 활동정보 테이블 생성
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ TABLE_BEHAVIOR +" (" +
                 " timestamp integer, " +
-                " name varchar(100)" +
+                " name varchar(100), " +
+                " category varchar(100)" +
                 " )");
 
         // 활동정보 업데이트(최근) 정보 테이블 생성
@@ -187,7 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_BEHAVIOR_SETTING_LATITUDE, latitude);
             cv.put(COLUMN_BEHAVIOR_SETTING_LONGITUDE, longitude);
             cv.put(COLUMN_BEHAVIOR_SETTING_RANGE, range);
-            cv.put(COLUMN_BEHAVIOR_SETTING_CATEGORY, category);
+            cv.put(COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST, category);
 
             result = getWritableDatabase().insert(TABLE_BEHAVIOR_SETTING, null, cv);
         }else{
@@ -196,7 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_BEHAVIOR_SETTING_LATITUDE, latitude);
             cv.put(COLUMN_BEHAVIOR_SETTING_LONGITUDE, longitude);
             cv.put(COLUMN_BEHAVIOR_SETTING_RANGE, range);
-            cv.put(COLUMN_BEHAVIOR_SETTING_CATEGORY, category);
+            cv.put(COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST, category);
 
             result = getWritableDatabase().update(TABLE_BEHAVIOR_SETTING, cv,"name=?",new String[]{name});
         }
@@ -298,6 +298,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             double latitude = cursor.getDouble(2);
             double longitude = cursor.getDouble(3);
             int range = cursor.getInt(4);
+            String category = cursor.getString(5);
 
             Log.d(TAG,"DB에서 불러옴: " + name);
 
@@ -306,6 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_BEHAVIOR_SETTING_LATITUDE, latitude);
             cv.put(COLUMN_BEHAVIOR_SETTING_LONGITUDE, longitude);
             cv.put(COLUMN_BEHAVIOR_SETTING_RANGE, range);
+            cv.put(COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST, category);
 
             al.add(cv);
         }
@@ -401,7 +403,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String name;
             name = isInArea(locationLogList.get(bestIndex).getAsDouble(COLUMN_LOCATION_LATITUDE), locationLogList.get(bestIndex).getAsDouble(COLUMN_LOCATION_LONGITUDE));
             deleteBehavior(unique*min_10);
-            insertBehavior(unique*min_10, name);
+            insertBehavior(unique*min_10, name, "");
         }
 
         return result;
@@ -415,7 +417,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long deleteBehaviorsAsName(String name){
+    public long deleteBehaviorsByName(String name){
         long result = getWritableDatabase().delete(TABLE_BEHAVIOR, COLUMN_BEHAVIOR_NAME+"=?",new String[]{name});
 
         close();
@@ -429,20 +431,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long updateBehaviorsFromTo(String name, long startTime, long endTime){ // startTime <= x < endTime
+    public long updateBehaviorsFromTo(String name, String category, long startTime, long endTime){ // startTime <= x < endTime
         Log.d(TAG, "updateBehaviorsFromTo("+name+", "+startTime+", "+endTime+")");
         long result = 0;
 
         deleteBehaviorsFromTo(startTime, endTime);
 
         for(long i=startTime; i<endTime; i+=(1000*60*10)) {
-            result = insertBehavior(i, name);
+            result = insertBehavior(i, name, category);
         }
 
         return result;
     }
 
-    public long insertBehavior(long timestamp, String name){
+    public long insertBehavior(long timestamp, String name, String category){
         //Log.d(TAG, "행동 저장 : TimeStamp = " + timestamp + " / Name = " + name);
 
         long result = 0;
@@ -452,6 +454,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // INSERT
         cv.put(COLUMN_BEHAVIOR_TIMESTAMP, timestamp);
         cv.put(COLUMN_BEHAVIOR_NAME, name);
+        cv.put(COLUMN_BEHAVIOR_CATEGORY, category);
 
         result = getWritableDatabase().insert(TABLE_BEHAVIOR, null, cv);
 
@@ -471,11 +474,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             long timestamp = cursor.getLong(0);
             String name = cursor.getString(1);
+            String category = cursor.getString(2);
 
             Log.d(TAG,"DB에서 불러옴: " + name);
 
             cv.put(COLUMN_BEHAVIOR_TIMESTAMP, timestamp);
             cv.put(COLUMN_BEHAVIOR_NAME, name);
+            cv.put(COLUMN_BEHAVIOR_CATEGORY, category);
 
             al.add(cv);
         }
@@ -483,12 +488,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return al;
     }
     public ArrayList<String> getCategoryListByBehaviorName(String name){
+        Log.d(TAG, "getCategoryListByBehaviorName('"+name+"')");
         ArrayList<String> categoryList = new ArrayList<String>(); // = new ArrayList<String>();
         categoryList.add("미설정");
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor;
-        String sql = "SELECT "+COLUMN_BEHAVIOR_SETTING_CATEGORY
+        String sql = "SELECT "+ COLUMN_BEHAVIOR_SETTING_CATEGORY_LIST
                 + " FROM " + TABLE_BEHAVIOR_SETTING + " WHERE " + COLUMN_BEHAVIOR_SETTING_NAME + "='" + name +"'";
         cursor = db.rawQuery(sql,null);
 

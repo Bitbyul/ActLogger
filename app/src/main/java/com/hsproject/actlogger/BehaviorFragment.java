@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -259,7 +260,15 @@ public class BehaviorFragment extends Fragment {
                     timeTableRowCount++;
                 }else{
                     cv.put("index",timeTableRowCount);
-                    cv.put("name",al.get(findIndex).getAsString(db.COLUMN_BEHAVIOR_NAME));
+                    String category = al.get(findIndex).getAsString(db.COLUMN_BEHAVIOR_CATEGORY);
+                    cv.put("name", al.get(findIndex).getAsString(db.COLUMN_BEHAVIOR_NAME));
+                    if(category==null) {
+                        cv.put("category", "");
+                    }else if(category.equals("") || category.equals("null")) {
+                        cv.put("category", "");
+                    }else {
+                        cv.put("category", category);
+                    }
                     //setTextViewWithBehaviorsTime(timeTableRowCount,1, al.get(findIndex).getAsString(db.COLUMN_BEHAVIOR_NAME));
                     timeActList.add(cv);
                     timeTableRowCount++;
@@ -349,20 +358,30 @@ public class BehaviorFragment extends Fragment {
             int StartSameActIndex = i;
             int EndSameActIndex = i;
             final String actName = timeActList.get(i).getAsString("name");
+            String category = timeActList.get(i).getAsString("category");
+            if("".equals(category) || category==null)
+                category = "";
             final int indexOfTime = i;
             Log.d(TAG,actName);
 
-            for (int j = i + 1; j < timeActList.size(); j++)
-                if (actName.equals(timeActList.get(j).getAsString("name")))
+            for (int j = i + 1; j < timeActList.size(); j++) {
+                String nextCategory = timeActList.get(j).getAsString("category");
+                if(nextCategory==null)
+                    nextCategory = "";
+                if (actName.equals(timeActList.get(j).getAsString("name")) && category.equals(nextCategory))
                     EndSameActIndex++;
                 else
                     break;
+            }
 
             final int span = (EndSameActIndex - StartSameActIndex + 1);
 
             TextView txtView = new TextView(getContext());
             timeViewList.add(txtView);
-            txtView.setText(actName);
+            if("".equals(category) || category==null)
+                txtView.setText(actName);
+            else
+                txtView.setText(actName + " ─ " + category);
 
             txtView.setBackgroundColor(Color.rgb(200,200,200));
             for(int j=0; j<actSettingList.size(); j++)
@@ -371,7 +390,10 @@ public class BehaviorFragment extends Fragment {
 
             txtView.setHeight((int) (scale * 15 * span));
             txtView.setGravity(Gravity.CENTER);
+            if(span<=1)
+                txtView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
 
+            final String finalCategory = category;
             txtView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -379,6 +401,7 @@ public class BehaviorFragment extends Fragment {
                     mainActivity.pickedAct = actName;
                     mainActivity.selectedTimeIndex = indexOfTime;
                     mainActivity.selectedTimeSpan = span;
+                    mainActivity.selectedCategory = finalCategory;
                     mainActivity.replaceBehaviorFragmentDetail(true);
                 }
             });

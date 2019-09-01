@@ -57,6 +57,7 @@ public class BehaviorDetailFragment extends Fragment {
 
     int startTime;
     int endTime;
+    String category;
 
     private OnFragmentInteractionListener mListener;
 
@@ -107,6 +108,7 @@ public class BehaviorDetailFragment extends Fragment {
         final long selectedDateTimestamp = mainActivity.selectedDateTimestamp;
         int selectedTimeIndex = mainActivity.selectedTimeIndex;
         int selectedTimeSpan = mainActivity.selectedTimeSpan;
+        category = mainActivity.selectedCategory;
 
         spnActList = view.findViewById(R.id.spnActList);
         txtStartTime = view.findViewById(R.id.txtStartTime);
@@ -257,7 +259,7 @@ public class BehaviorDetailFragment extends Fragment {
                 }
                 long startTimestamp = selectedDateTimestamp + (startTime*60*1000);
                 long endTimestamp = selectedDateTimestamp + (endTime*60*1000);
-                db.updateBehaviorsFromTo(spnActList.getSelectedItem().toString(), startTimestamp, endTimestamp);
+                db.updateBehaviorsFromTo(spnActList.getSelectedItem().toString(), category, startTimestamp, endTimestamp);
                 ((MainActivity)getActivity()).replaceBehaviorFragmentDetail(false);
 
             }
@@ -306,8 +308,36 @@ public class BehaviorDetailFragment extends Fragment {
     }
 
     public void setCategoryListByActName(String actName){
-        ArrayList<String> LIST_MENU = ((MainActivity) getActivity()).db.getCategoryListByBehaviorName(actName);
+        final ArrayList<String> LIST_MENU = ((MainActivity) getActivity()).db.getCategoryListByBehaviorName(actName);
         ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
         listview.setAdapter(adapter_category) ;
+        listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        adapter_category.notifyDataSetChanged();
+        for(int i=0; i<LIST_MENU.size(); i++) {
+            if (category.equals(LIST_MENU.get(i))) {
+                final int finalI = i;
+                listview.post(new Runnable() {
+                    public void run() {
+                        listview.setSelection(finalI);
+                    }
+                });
+                break;
+            }
+            if(i==LIST_MENU.size()-1) {
+                listview.post(new Runnable() {
+                    public void run() {
+                        listview.setSelection(0);
+                    }
+                });
+            }
+        }
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                if(position==0) category = "";
+                else category = LIST_MENU.get(position);
+                Log.d(TAG, category + "선택");
+            }
+        });
     }
 }

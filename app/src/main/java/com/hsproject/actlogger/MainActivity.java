@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     public long selectedDateTimestamp = 0;
     public int selectedTimeIndex = 0;
     public int selectedTimeSpan = 0;
+    public String selectedCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
