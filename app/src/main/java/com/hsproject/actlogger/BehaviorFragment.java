@@ -251,7 +251,7 @@ public class BehaviorFragment extends Fragment {
                     }
                 }
                 ContentValues cv = new ContentValues();
-                if(lastFindIndex==findIndex  && findIndex!=0){
+                if((lastFindIndex==findIndex && findIndex!=0) || al.size()==0){
                     cv.put("index",timeTableRowCount);
                     cv.put("name","정보없음");
                     //setTextViewWithBehaviorsTime(timeTableRowCount,1, "정보없음");
