@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.location.Location;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "database.sqlite";
@@ -464,6 +466,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return al;
+    }
+    public ArrayList<String> getCategoryListByBehaviorName(String name){
+        ArrayList<String> categoryList = new ArrayList<String>(); // = new ArrayList<String>();
+        categoryList.add("미설정");
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor;
+        String sql = "SELECT "+COLUMN_BEHAVIOR_SETTING_CATEGORY
+                + " FROM " + TABLE_BEHAVIOR_SETTING + " WHERE " + COLUMN_BEHAVIOR_SETTING_NAME + "='" + name +"'";
+        cursor = db.rawQuery(sql,null);
+
+        cursor.moveToFirst();
+        int size = cursor.getCount();
+        if(size<1) {
+            close();
+            return categoryList;
+        }
+        String categorysRaw = cursor.getString(0);
+        String[] tempSplit = categorysRaw.split("\\|\\|");
+
+        if(tempSplit.length<1) {
+            close();
+            return categoryList;
+        }
+
+        for(int i=0; i<tempSplit.length; i++){
+            categoryList.add(tempSplit[i]);
+        }
+
+        close();
+
+        return categoryList;
+    }
+    public long updateCategoryListByBehaviorName(String name, String[] categoryArray){
+        long result = 0;
+
+        return result;
     }
 
     public String isInArea(double myLatitude, double myLongitude){

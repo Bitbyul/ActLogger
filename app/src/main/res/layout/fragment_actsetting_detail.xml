@@ -117,6 +117,9 @@
                     android:text="+" />
             </LinearLayout>
             <ListView
+                android:id="@+id/lstCategory"
+                android:listSelector="@android:color/transparent"
+                android:cacheColorHint="@android:color/transparent"
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -52,6 +53,7 @@ public class BehaviorDetailFragment extends Fragment {
     Spinner spnActList;
     TextView txtStartTime;
     TextView txtEndTime;
+    ListView listview;
 
     int startTime;
     int endTime;
@@ -109,6 +111,7 @@ public class BehaviorDetailFragment extends Fragment {
         spnActList = view.findViewById(R.id.spnActList);
         txtStartTime = view.findViewById(R.id.txtStartTime);
         txtEndTime = view.findViewById(R.id.txtEndTime);
+        listview = (ListView) view.findViewById(R.id.lstCategory) ;
 
         view.setOnKeyListener( new View.OnKeyListener()
         {
@@ -158,11 +161,12 @@ public class BehaviorDetailFragment extends Fragment {
                         Log.d(TAG, "활동 항목 '" + actName + "' 선택됨");
                         ((MainActivity) getActivity()).pickedAct = actName;
                         ContentValues cv = db.getActSettingByName(actName);
+                        setCategoryListByActName(actName);
                     } catch (java.lang.NullPointerException e) {
                         //spnActList.setSelection(0);
                     }
                 }else{
-
+                    setCategoryListByActName("정보없음");
                 }
             }
 
@@ -229,6 +233,7 @@ public class BehaviorDetailFragment extends Fragment {
             }
         });
 
+        setCategoryListByActName(spnActList.getSelectedItem().toString());
 
         // 취소버튼
         ((Button)view.findViewById(R.id.btnCancel)).setOnClickListener(new View.OnClickListener() {
@@ -298,5 +303,11 @@ public class BehaviorDetailFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setCategoryListByActName(String actName){
+        ArrayList<String> LIST_MENU = ((MainActivity) getActivity()).db.getCategoryListByBehaviorName(actName);
+        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
+        listview.setAdapter(adapter_category) ;
     }
 }

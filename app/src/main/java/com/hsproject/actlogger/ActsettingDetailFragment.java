@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,7 +62,10 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
     MapPOIItem marker;
     private Spinner spnActList;
     private Button btnColor;
+    private Button btnAddCategory;
     private Button btnDelete;
+    private ListView listview;
+    ArrayList<String> LIST_MENU;
 
     public ActsettingDetailFragment() {
         // Required empty public constructor
@@ -122,6 +126,9 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
         btnDelete = ((Button)view.findViewById(R.id.btnDelete));
 
         spnActList = view.findViewById(R.id.spnActList);
+
+        listview = (ListView) view.findViewById(R.id.lstCategory) ;
+
         final ArrayList<String> actList = new ArrayList<String>();
         ArrayList<String> dbActNameList = new ArrayList<String>();
         dbActNameList = ((MainActivity)getActivity()).db.getActSettingNames();
@@ -178,6 +185,8 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                             skbRange.setProgress(cv.getAsInteger(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_RANGE));
                             mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LATITUDE), cv.getAsDouble(DatabaseHelper.COLUMN_BEHAVIOR_SETTING_LONGITUDE)), false);
                             btnDelete.setVisibility(View.VISIBLE);
+
+                            setCategoryListByActName(actName);
                         } catch (NullPointerException e) {
                             //spnActList.setSelection(0);
                         }
@@ -222,6 +231,40 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
             }
         });
 
+        btnAddCategory = view.findViewById(R.id.btnAddCategory);
+        btnAddCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spnActList.getSelectedItemPosition()==0){
+                    Toast.makeText(getContext(), "먼저 활동을 선택하세요.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                final EditText edittext = new EditText(getContext());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("카테고리 추가");
+                builder.setMessage("카테고리 이름을 입력하세요");
+                builder.setView(edittext);
+                builder.setPositiveButton("입력",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d(TAG,"새로운 카테고리 '" + edittext.getText() +"' 추가됨");
+                                LIST_MENU.add(edittext.getText().toString());
+                                updateCategoryList();
+                                //setCategoryListByActName(spnActList.getSelectedItem().toString());
+                            }
+                        });
+                builder.setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                builder.show();
+
+            }
+        });
 
         btnColor = view.findViewById(R.id.btnColor);
         btnColor.setOnClickListener(new View.OnClickListener() {
@@ -268,8 +311,12 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                 MapPoint.GeoCoordinate mapPointGeo = mMapView.getMapCenterPoint().getMapPointGeoCoord();
                 Log.d(TAG,""+mapPointGeo.latitude);
 
+                String categoryRaw = "";
+                for(int i=1; i<LIST_MENU.size(); i++) // 첫번째 항목 "미설정" 제외
+                    categoryRaw+=LIST_MENU.get(i)+"||";
+
                 long result = ((MainActivity)getActivity()).db.insertActSetting(spnActList.getSelectedItem().toString(), ((ColorDrawable) btnColor.getBackground()).getColor(), mapPointGeo.latitude, mapPointGeo.longitude,
-                        skbRange.getProgress(), "");
+                        skbRange.getProgress(), categoryRaw);
 
                 spnActList.setSelection(0);
                 ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
@@ -447,5 +494,38 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
         );
         circle1.setTag(1234);
         mapView.addCircle(circle1);
+    }
+    public void setCategoryListByActName(String actName){
+        LIST_MENU = ((MainActivity) getActivity()).db.getCategoryListByBehaviorName(actName);
+        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
+        listview.setAdapter(adapter_category) ;
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                if(position==0) return;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("카테고리 삭제");
+                builder.setMessage("'"+LIST_MENU.get(position)+" '카테고리를 삭제하시겠습니까?");
+                builder.setPositiveButton("예",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                LIST_MENU.remove(position);
+                                updateCategoryList();
+                                Toast.makeText(getContext(),"삭제하였습니다.",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                builder.setNegativeButton("아니오",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                builder.show();
+            }
+        });
+    }
+    public void updateCategoryList(){
+        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
+        listview.setAdapter(adapter_category) ;
     }
 }
