@@ -59,7 +59,7 @@ public class GpsHelper {
         }
 
         Log.d(TAG,"위치정보를 업데이트합니다.");
-        Toast.makeText(context, "위치정보를 업데이트합니다.", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "위치정보를 업데이트합니다.", Toast.LENGTH_SHORT).show();
 
         Location location = getLastKnownLocation();
         if(location==null){
@@ -169,11 +169,9 @@ public class GpsHelper {
         }
         if (list != null) {
             if (list.size()==0) {
-                return "해당되는 주소 정보는 없습니다";
+                return "주소 정보가 없습니다";
             } else {
-                // onWhere.setText(list.get(0).toString()); 원래 통으로 나오는 주소값 문자열
-
-                // 문자열을 자르자!
+                // 문자열 자르기
                 String cut[] = list.get(0).toString().split(" ");
                 /*
                 for(int i=0; i<cut.length; i++){

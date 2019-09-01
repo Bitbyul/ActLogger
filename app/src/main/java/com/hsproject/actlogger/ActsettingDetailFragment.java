@@ -169,6 +169,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                                         }
                                     }
                                     Log.d(TAG,"새로운 활동 항목 '" + newActName +"' 추가됨");
+                                    Toast.makeText(getContext(), "활동이 추가되었습니다.",Toast.LENGTH_SHORT).show();
                                     actList.remove(spnActList.getCount()-1);
                                     actList.add(newActName);
                                     actList.add("...새로운 항목 추가");
@@ -273,6 +274,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                                     }
                                 }
                                 Log.d(TAG,"새로운 카테고리 '" + categoryName +"' 추가됨");
+                                Toast.makeText(getContext(), "카테고리가 추가되었습니다.",Toast.LENGTH_SHORT).show();
                                 LIST_MENU.add(categoryName);
                                 updateCategoryList();
                             }
@@ -305,6 +307,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                 long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
                 result = ((MainActivity)getActivity()).db.deleteBehaviorsByName(((MainActivity) getActivity()).pickedAct);
 
+                Toast.makeText(getContext(), "삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }
         });
@@ -341,6 +344,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                         skbRange.getProgress(), categoryRaw);
 
                 spnActList.setSelection(0);
+                Toast.makeText(getContext(), "저장되었습니다.",Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }
         });

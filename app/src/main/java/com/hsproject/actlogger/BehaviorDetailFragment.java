@@ -236,7 +236,7 @@ public class BehaviorDetailFragment extends Fragment {
                         String endTimeMin = String.format("%02d", endTime%60);
 
                         txtEndTime.setText(endTimeHour + ":" + endTimeMin);
-                        Toast.makeText(getContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
                     }
 
                 },timeHour,timeMin,true);
@@ -270,6 +270,7 @@ public class BehaviorDetailFragment extends Fragment {
                 long startTimestamp = selectedDateTimestamp + (startTime*60*1000);
                 long endTimestamp = selectedDateTimestamp + (endTime*60*1000);
                 db.updateBehaviorsFromTo(spnActList.getSelectedItem().toString(), category, startTimestamp, endTimestamp);
+                Toast.makeText(getContext(), "수정되었습니다.",Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).replaceBehaviorFragmentDetail(false);
 
             }
