@@ -190,8 +190,9 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                     builder.show();
                 }else{
                     if(position!=0) {
-                        String actName = ((TextView) view).getText().toString();
+                        String actName = "정보없음";
                         try {
+                            actName = ((TextView) view).getText().toString();
                             Log.d(TAG, "활동 항목 '" + actName + "' 선택됨");
                             ((MainActivity) getActivity()).pickedAct = actName;
                             ContentValues cv = ((MainActivity) getActivity()).db.getActSettingByName(actName);
@@ -306,7 +307,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
             public void onClick(View v) {
                 long result = ((MainActivity)getActivity()).db.deleteActSettingByName(((MainActivity) getActivity()).pickedAct);
                 result = ((MainActivity)getActivity()).db.deleteBehaviorsByName(((MainActivity) getActivity()).pickedAct);
-
+                spnActList.setSelection(0);
                 Toast.makeText(getContext(), "삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).replaceActsettingFragmentDetail(false);
             }
