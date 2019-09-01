@@ -245,8 +245,6 @@ public class BehaviorDetailFragment extends Fragment {
             }
         });
 
-        setCategoryListByActName(spnActList.getSelectedItem().toString());
-
         // 취소버튼
         ((Button)view.findViewById(R.id.btnCancel)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +340,7 @@ public class BehaviorDetailFragment extends Fragment {
                     }
                 });
                 txtCategory.setText("미설정");
+                category = "";
             }
         }
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
