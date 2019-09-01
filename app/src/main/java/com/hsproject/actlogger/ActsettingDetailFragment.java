@@ -248,10 +248,20 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                 builder.setPositiveButton("입력",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d(TAG,"새로운 카테고리 '" + edittext.getText() +"' 추가됨");
-                                LIST_MENU.add(edittext.getText().toString());
+                                String categoryName = edittext.getText().toString();
+                                if(categoryName.equals("")){
+                                    Toast.makeText(getContext(), "빈 카테고리 이름은 사용할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                for(int i=0; i<LIST_MENU.size(); i++){
+                                    if(categoryName.equals(LIST_MENU.get(i))){
+                                        Toast.makeText(getContext(), "중복된 카테고리 이름이 있습니다.",Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                                Log.d(TAG,"새로운 카테고리 '" + categoryName +"' 추가됨");
+                                LIST_MENU.add(categoryName);
                                 updateCategoryList();
-                                //setCategoryListByActName(spnActList.getSelectedItem().toString());
                             }
                         });
                 builder.setNegativeButton("취소",
