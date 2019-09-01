@@ -155,9 +155,22 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
                     builder.setPositiveButton("입력",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Log.d(TAG,"새로운 활동 항목 '" + edittext.getText() +"' 추가됨");
+                                    String newActName = edittext.getText().toString();
+                                    if(newActName.equals("")){
+                                        Toast.makeText(getContext(), "빈 활동 이름은 사용할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                                        spnActList.setSelection(0);
+                                        return;
+                                    }
+                                    for(int i=0; i<actList.size(); i++){
+                                        if(newActName.equals(actList.get(i))){
+                                            Toast.makeText(getContext(), "중복된 활동 이름이 있습니다.",Toast.LENGTH_SHORT).show();
+                                            spnActList.setSelection(0);
+                                            return;
+                                        }
+                                    }
+                                    Log.d(TAG,"새로운 활동 항목 '" + newActName +"' 추가됨");
                                     actList.remove(spnActList.getCount()-1);
-                                    actList.add(edittext.getText().toString());
+                                    actList.add(newActName);
                                     actList.add("...새로운 항목 추가");
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,actList);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
