@@ -524,7 +524,7 @@ public class ActsettingDetailFragment extends Fragment implements MapView.MapVie
     }
     public void setCategoryListByActName(String actName){
         LIST_MENU = ((MainActivity) getActivity()).db.getCategoryListByBehaviorName(actName);
-        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
+        ArrayAdapter adapter_category =new ArrayAdapter(getActivity(), R.layout.listview_item, R.id.list_content, LIST_MENU) ;
         listview.setAdapter(adapter_category) ;
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

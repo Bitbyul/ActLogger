@@ -318,7 +318,7 @@ public class BehaviorDetailFragment extends Fragment {
 
     public void setCategoryListByActName(String actName){
         final ArrayList<String> LIST_MENU = ((MainActivity) getActivity()).db.getCategoryListByBehaviorName(actName);
-        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU) ;
+        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), R.layout.listview_item, R.id.list_content, LIST_MENU) ;
         listview.setAdapter(adapter_category) ;
         listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         adapter_category.notifyDataSetChanged();
